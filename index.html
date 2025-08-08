@@ -1,570 +1,468 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>ASHARA 1447 ISTIBSAAR</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --bg:#050d1a; --fg:#f8faff; --muted:#a7b3c3; --accent:#ffd166;
-    --text-dark:#1a1300; --ok:#46d39a; --ko:#ff6b6b;
-    --card:#0f1e36; --border:#1f3652;
+    --bg:#0f2347;       /* bleu nuit clair */
+    --bg-soft:#163060;  /* cartes */
+    --fg:#f7fbff;       /* texte principal */
+    --muted:#c7d3e6;    /* texte secondaire */
+    --accent:#ffd166;   /* or doux */
+    --accent-2:#8fd3ff; /* cyan doux */
+    --ok:#46d39a;       /* vert succès */
+    --ko:#ff6b6b;       /* rouge erreur */
+    --border:#2a4a82;   /* bordures */
+    --radius:16px;
+    --shadow:0 12px 30px rgba(0,0,0,.35);
+    --header-h:64px;    /* HAUTEUR HEADER (réglable) */
   }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:'Open Sans',system-ui,Segoe UI,Roboto,Arial,sans-serif;scroll-behavior:smooth}
-  /* Sky + paralaxe */
-  .sky{position:fixed;inset:0;pointer-events:none;z-index:-2;background:
-    radial-gradient(800px 300px at 70% -20%, rgba(255,209,102,.15), transparent 60%),
-    radial-gradient(600px 280px at 10% 0%, rgba(130,170,255,.12), transparent 55%),
-    radial-gradient(1000px 600px at 50% 120%, rgba(0,175,255,.06), transparent 60%), var(--bg);}
-  .stars::before,.stars::after{content:"";position:absolute;inset:0;background:
-    radial-gradient(1px 1px at 10% 20%,#fff,transparent 60%),
-    radial-gradient(1.2px 1.2px at 30% 80%,#fff,transparent 60%),
-    radial-gradient(0.8px 0.8px at 60% 30%,#fff,transparent 60%),
-    radial-gradient(1px 1px at 80% 60%,#fff,transparent 60%),
-    radial-gradient(0.8px 0.8px at 45% 55%,#fff,transparent 60%);opacity:.35;animation:twinkle 6s infinite alternate}
-  .stars::after{filter:blur(1px);opacity:.2;animation-duration:9s}
-  @keyframes twinkle{from{opacity:.15}to{opacity:.45}}
 
-  /* Header */
-  header{position:fixed;inset:0 0 auto 0;background:rgba(5,13,26,.75);
-    border-bottom:1px solid var(--border);backdrop-filter:blur(8px);z-index:1000}
-  .nav{max-width:1200px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:28px;height:28px;border:2px solid var(--accent);border-radius:50%;position:relative}
-  .logo::after{content:"";position:absolute;inset:5px;border:2px solid var(--accent);border-radius:50%;opacity:.6}
-  h1{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:1px;margin:0}
-  nav a{color:var(--fg);text-decoration:none;font-weight:700;margin-left:18px}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;scroll-behavior:smooth}
+
+  /* Empêche le contenu d'être masqué par le header fixé */
+  body{padding-top:var(--header-h)}
+
+  a{color:var(--accent);text-decoration:none}
+  img{max-width:100%;display:block}
+
+  /* --- CIEL (étoiles + constellations) --- */
+  .sky{position:fixed;inset:0;z-index:-1;background:
+    radial-gradient(1200px 600px at 70% -10%, rgba(255,209,102,.12), transparent 60%),
+    radial-gradient(900px 500px at 10% 0%, rgba(143,211,255,.12), transparent 55%),
+    var(--bg);}
+  .stars,.constel{position:absolute;inset:0;pointer-events:none}
+  .stars::before,.stars::after{
+    content:"";position:absolute;inset:0;background:
+      radial-gradient(1px 1px at 10% 20%,#fff,transparent 60%),
+      radial-gradient(1.2px 1.2px at 30% 80%,#fff,transparent 60%),
+      radial-gradient(1px 1px at 60% 35%,#fff,transparent 60%),
+      radial-gradient(1.2px 1.2px at 80% 60%,#fff,transparent 60%),
+      radial-gradient(0.8px 0.8px at 45% 55%,#fff,transparent 60%),
+      radial-gradient(0.8px 0.8px at 25% 30%,#fff,transparent 60%);
+    opacity:.35;animation:twinkle 7s infinite alternate ease-in-out
+  }
+  .stars::after{filter:blur(1px);opacity:.22;animation-duration:10s}
+  @keyframes twinkle{from{opacity:.18}to{opacity:.55}}
+  canvas.constel{width:100%;height:100%}
+
+  /* --- HEADER --- */
+  header{position:fixed;top:0;left:0;right:0;height:var(--header-h);
+    background:rgba(15,35,71,.8);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);z-index:50}
+  .nav{max-width:1200px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;justify-content:space-between;height:100%}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{width:28px;height:28px;border:2px solid var(--accent);border-radius:50%;position:relative;flex:0 0 auto}
+  .mark::after{content:"";position:absolute;inset:6px;border:2px solid var(--accent-2);border-radius:50%;opacity:.7}
+  h1{font-family:Orbitron,system-ui,sans-serif;font-size:clamp(1rem,2.4vw,1.35rem);letter-spacing:.5px;color:var(--accent);margin:0}
+  nav{display:flex;flex-wrap:wrap;gap:12px}
+  nav a{color:var(--fg);font-weight:700}
   nav a:hover{color:var(--accent)}
 
-  /* Hero */
-  .hero{min-height:100vh;padding:120px 20px 40px;display:grid;place-items:center;text-align:center;position:relative;z-index:1}
-  .poster{max-width:900px;width:100%;border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.5)}
-  .poster img{display:block;width:100%;height:auto}
-  .hero h2{font-family:'Orbitron',sans-serif;font-size:2rem;margin:18px 0 0}
-  .actions{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
-  .btn{padding:12px 18px;border-radius:10px;border:1px solid var(--border);background:#142b44;color:var(--fg);font-weight:700;text-decoration:none}
-  .btn--accent{background:var(--accent);color:var(--text-dark);border-color:#d6ad4b}
-  .btn:hover{filter:brightness(1.08)}
-
-  /* Sections communes */
-  section{scroll-margin-top:84px}
+  /* --- SECTIONS & WRAP --- */
   .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-  .title{font-family:'Orbitron',sans-serif;font-size:2rem;text-align:center;margin:10px 0 24px}
+  section{scroll-margin-top:calc(var(--header-h) + 20px);padding:clamp(40px,7vw,110px) 0}
+  .head{text-align:center;max-width:900px;margin:0 auto clamp(24px,4vw,36px)}
+  .title{font-family:Orbitron,system-ui,sans-serif;font-weight:800;color:#fff;font-size:clamp(1.6rem,3.8vw,2.4rem);margin:0 0 10px}
+  .lead{color:var(--muted);margin:0 auto;max-width:70ch}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,#2a4a82,transparent);opacity:.7;margin:clamp(28px,4vw,44px) auto}
 
-  /* Barre recherche */
-  .searchbar{display:flex;gap:10px;justify-content:center;margin:0 auto 16px;max-width:800px}
-  .searchbar input{flex:1;min-width:220px;background:#0e1b2f;border:1px solid var(--border);color:var(--fg);border-radius:10px;padding:12px}
-  .searchbar .hint{color:var(--muted);font-size:.9rem;margin-top:4px;text-align:center}
+  /* --- HERO (texte) --- */
+  .hero{text-align:center}
+  .hero .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+  .btn{padding:12px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(22,48,96,.6);color:var(--fg);font-weight:700}
+  .btn--accent{background:var(--accent);border-color:#d9b24a;color:#1a1300}
+  .btn:hover{filter:brightness(1.06)}
 
-  /* Grille */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-  .card{display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--card);
-    border:1px solid var(--border);border-radius:14px;padding:18px;text-decoration:none;color:var(--fg);
-    box-shadow:0 6px 18px rgba(0,0,0,.35);
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .2s;will-change:transform;opacity:0;transform:translateY(18px)}
-  .card.in{opacity:1;transform:translateY(0)}
-  .card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 14px 30px rgba(0,0,0,.45);border-color:var(--accent)}
-  .tag{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:#111;background:var(--accent);padding:4px 8px;border-radius:999px;font-weight:800}
-  .tag svg{width:14px;height:14px}
-  .card h3{margin:6px 0 4px;font-size:1.06rem;font-family:'Orbitron',sans-serif;color:var(--accent)}
-  .card p{margin:0;color:var(--muted);flex:1}
-  .row-actions{display:flex;gap:8px;margin-top:6px}
-  .mini{font-size:.9rem;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#152a44;color:var(--fg);text-decoration:none;cursor:pointer}
-  .mini:hover{border-color:var(--accent)}
+  /* --- SESSIONS --- */
+  .card{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--bg-soft);
+    border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+  .card p{margin:.2rem 0}
+  .center{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
 
-  /* Sessions */
-  .sessions .box{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--card);
-    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 10px 28px rgba(0,0,0,.4)}
-  .sessions ul{margin:10px 0 0 0;padding:0;list-style:none}
-  .sessions li{padding:10px 12px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:#0e1b2f}
-  .sessions .btn-area{display:flex;justify-content:center;margin-top:14px}
+  /* --- LISTE VAHEZ --- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2.4vw,22px)}
+  .vahez{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:14px;background:
+     linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--bg-soft);border:1px solid var(--border);
+     box-shadow:0 10px 26px rgba(0,0,0,.3);transition:transform .25s ease, box-shadow .25s ease, border-color .2s}
+  .vahez:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(0,0,0,.4);border-color:var(--accent)}
+  .vahez h3{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:.2px}
+  .vahez p{margin:0;color:var(--muted);font-size:.95rem}
+  .vahez a{margin-top:8px;align-self:flex-start}
 
-  /* Modal PDF preview */
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px}
-  .modal.open{display:flex}
-  .modal-content{background:#0c1a2c;border:1px solid var(--border);border-radius:14px;max-width:1000px;width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
-  .modal-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border)}
-  .modal-header h4{margin:0;font-family:'Orbitron',sans-serif}
-  .modal-body{flex:1;overflow:auto;background:#081223}
-  .modal-body iframe{width:100%;height:80vh;border:0}
-  .close{background:transparent;border:1px solid var(--border);color:var(--fg);padding:6px 10px;border-radius:8px;cursor:pointer}
-  .close:hover{border-color:var(--accent)}
-
-  /* Quiz */
-  .quiz{margin:60px auto 30px}
-  .quiz .box{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--card);
-    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 10px 28px rgba(0,0,0,.4)}
-  .progress{height:8px;background:#0e1b2f;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:0 0 12px}
+  /* --- QUIZ --- */
+  .quiz{max-width:900px;margin:0 auto}
+  .qbox{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--bg-soft);
+    border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+  .prog{height:10px;background:#10264d;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:0 0 14px}
   .bar{height:100%;width:0;background:linear-gradient(90deg,#38d39f,#ffd166)}
-  .q{margin:14px 0 18px}
-  .q h4{margin:0 0 8px;font-size:1rem}
+  .qmeta{display:flex;justify-content:space-between;gap:12px;color:var(--accent);font-weight:700;margin-bottom:6px}
+  .question{font-weight:700;font-size:clamp(1rem,2.8vw,1.2rem);margin:6px 0 12px}
   .choices{display:grid;gap:10px}
-  .choice{background:#12233b;border:1px solid var(--border);padding:10px 12px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px}
-  .choice input{accent-color:#ffd166}
-  .choice.correct{outline:2px solid var(--ok)}
-  .choice.wrong{outline:2px solid var(--ko)}
-  .exp{color:var(--muted);font-size:.92rem;margin-top:6px;min-height:1.2em}
-  .controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-  .btn-quiz{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:#142b44;color:var(--fg);font-weight:700;cursor:pointer}
-  .btn-quiz--accent{background:var(--accent);color:var(--text-dark)}
-  .result{margin-top:10px;font-weight:800}
-  .good{color:var(--ok)} .bad{color:var(--ko)}
+  .choice{background:#1b3a6d;border:1px solid var(--border);padding:12px;border-radius:12px;cursor:pointer;transition:transform .15s ease, border-color .2s}
+  .choice:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .choice.selected{outline:2px solid var(--accent);outline-offset:2px}
+  .choice.correct{background:rgba(70,211,154,.9);color:#0b241a;border-color:#2aa474}
+  .choice.wrong{background:rgba(255,107,107,.9);color:#260b0b;border-color:#d94e4e}
+  .exp{color:var(--muted);font-size:.95rem;min-height:1.35em;margin-top:8px}
+  .controls{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .pill{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(22,48,96,.6);color:var(--fg);font-weight:800;cursor:pointer}
+  .pill--accent{background:var(--accent);border-color:#d9b24a;color:#1a1300}
+  .pill[disabled]{opacity:.6;cursor:not-allowed}
+  .final{margin-top:14px;text-align:center;font-weight:800}
 
-  footer{margin-top:60px;padding:24px 20px;border-top:1px solid var(--border);text-align:center;color:var(--muted)}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+  /* --- RESP --- */
+  @media (max-width:560px){
+    :root{ --header-h:70px; }
+    .qmeta{flex-direction:column;gap:6px}
+    nav{gap:10px}
+  }
 </style>
 </head>
 <body>
-<div class="sky stars" id="sky"></div>
+<div class="sky">
+  <div class="stars"></div>
+  <canvas class="constel" id="constel" aria-hidden="true"></canvas>
+</div>
 
 <header>
-  <div class="nav">
+  <div class="nav wrap">
     <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
+      <div class="mark" aria-hidden="true"></div>
       <h1>ASHARA 1447 ISTIBSAAR</h1>
     </div>
     <nav>
-      <a href="#liste">Vahéz</a>
       <a href="#sessions">Sessions</a>
+      <a href="#vahez">Vahez</a>
       <a href="#quiz">Quiz</a>
     </nav>
   </div>
 </header>
 
 <main>
+
   <!-- HERO -->
-  <section class="hero">
-    <figure class="poster" style="animation:pop .6s ease-out" role="img" aria-labelledby="poster-desc">
-      <img src="affiche-vahez.png" alt="Affiche — Ashara 1447 Istibsaar" loading="lazy" decoding="async" width="900" height="600" />
-      <figcaption id="poster-desc" class="sr-only">Illustration des 10 Vahéz et leur symbolisme cosmique.</figcaption>
-    </figure>
-    <h2>Réflexions sur la guidance cosmique et spirituelle</h2>
-    <div class="actions">
-      <a class="btn btn--accent" href="affiche-vahez.png" download>Télécharger l’affiche</a>
-      <a class="btn" href="#liste">Voir les Vahéz</a>
-    </div>
-  </section>
-
-  <!-- LISTE -->
-  <section id="liste" class="wrap">
-    <h3 class="title">Les Vahéz (2ᵉ → 10ᵉ Muharram)</h3>
-
-    <div class="searchbar">
-      <input type="search" id="search" placeholder="Rechercher (ex. Jupiter, discipline, Lune…)" aria-label="Rechercher un Vahéz">
-    </div>
-    <div class="searchbar"><div class="hint">Astuce : tape un mot-clé pour filtrer les cartes en temps réel.</div></div>
-
-    <div class="grid" id="cards">
-      <!-- carte = lien PDF + bouton Aperçu -->
-      <div class="card" data-tags="muheet orbite enveloppante exterieure univers falak al-falak al-muheet">
-        <span class="tag" title="PDF"><svg viewBox="0 0 24 24"><path fill="#111" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM14 3v5h5"/></svg>PDF</span>
-        <h3>Al-Falak al-Muheet</h3>
-        <p>Orbite enveloppante — sphère la plus extérieure qui embrasse l’univers.</p>
-        <div class="row-actions">
-          <a class="mini" href="2nd Muharram al Haraam (1).pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="2nd Muharram al Haraam (1).pdf" data-title="Al-Falak al-Muheet">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="buruj constellations etoiles fixes falak al-buruj">
-        <span class="tag">PDF</span>
-        <h3>Falak al-Buruj</h3>
-        <p>Sphère des étoiles fixes & constellations, demeures des « buruj ».</p>
-        <div class="row-actions">
-          <a class="mini" href="3rd Muharram al Haraam.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="3rd Muharram al Haraam.pdf" data-title="Falak al-Buruj">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="zohal saturne discipline endurance effort">
-        <span class="tag">PDF</span>
-        <h3>Zohal (Saturne)</h3>
-        <p>Discipline & endurance — maître de l’effort et des épreuves.</p>
-        <div class="row-actions">
-          <a class="mini" href="4th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="4th Muharram al Haram.pdf" data-title="Zohal (Saturne)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="mushtari jupiter prosperite saadat fortune effort">
-        <span class="tag">PDF</span>
-        <h3>Mushtari (Jupiter)</h3>
-        <p>Prospérité & noblesse — la « bonne fortune » s’acquiert par l’effort.</p>
-        <div class="row-actions">
-          <a class="mini" href="5th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="5th Muharram al Haram.pdf" data-title="Mushtari (Jupiter)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="mirrikh mars force courage resilience protection">
-        <span class="tag">PDF</span>
-        <h3>Mirrikh (Mars)</h3>
-        <p>Force, courage & résilience — protection et fermeté.</p>
-        <div class="row-actions">
-          <a class="mini" href="6th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="6th Muharram al Haram.pdf" data-title="Mirrikh (Mars)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="zuhra venus harmonie beaute grace coeur">
-        <span class="tag">PDF</span>
-        <h3>Zuhra (Vénus)</h3>
-        <p>Harmonie, beauté & grâce — équilibre du cœur.</p>
-        <div class="row-actions">
-          <a class="mini" href="7th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="7th Muharram al Haram.pdf" data-title="Zuhra (Vénus)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="utarid mercure vivacite clarte savoir action">
-        <span class="tag">PDF</span>
-        <h3>ʿUtarid (Mercure)</h3>
-        <p>Vivacité & clarté — liaison entre savoir et action.</p>
-        <div class="row-actions">
-          <a class="mini" href="8th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="8th Muharram al Haram.pdf" data-title="ʿUtarid (Mercure)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="shams soleil lumiere guidance chaleur vie">
-        <span class="tag">PDF</span>
-        <h3>Shams (Soleil)</h3>
-        <p>Lumière & guidance — source de chaleur et de vie.</p>
-        <div class="row-actions">
-          <a class="mini" href="9eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="9eme Muharram al Haram.pdf" data-title="Shams (Soleil)">Aperçu</button>
-        </div>
-      </div>
-
-      <div class="card" data-tags="qamar lune cycles receptivite miroir solaire">
-        <span class="tag">PDF</span>
-        <h3>Qamar (Lune)</h3>
-        <p>Réceptivité & cycles — miroir de la lumière solaire.</p>
-        <div class="row-actions">
-          <a class="mini" href="10eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir</a>
-          <button class="mini" data-preview="10eme Muharram al Haram.pdf" data-title="Qamar (Lune)">Aperçu</button>
-        </div>
+  <section class="hero wrap" id="hero">
+    <div class="head">
+      <h2 class="title">Réflexions — Guidance cosmique & spirituelle</h2>
+      <p class="lead">Parcours les Vahez (2ᵉ → 10ᵉ Muharram), rejoins les sessions d’Istibsaar francophones et mesure tes connaissances grâce à un quiz interactif.</p>
+      <div class="cta">
+        <a class="btn btn--accent" href="#vahez">Voir les Vahez</a>
+        <a class="btn" href="#sessions">S’inscrire aux sessions</a>
+        <a class="btn" href="#quiz">Faire le quiz</a>
       </div>
     </div>
   </section>
+
+  <div class="divider wrap"></div>
 
   <!-- SESSIONS -->
-  <section id="sessions" class="wrap sessions">
-    <h3 class="title">Ashara Mubaraka 1447H — Sessions Istibsaar 🇫🇷</h3>
-    <div class="box">
-      <p>Aa saal, Ashara Mubaraka 1447H ma, Aqa Maula TUS ye je aflaak ane taarao ni zikr farmaawi ehna si Francophone Mumineen barakat haasil kare te vaaste Huzurala TUS ye karam ane ehsaan farmavi ne makhsoos istibsaar na online sessions ni Raza Mubarak fadal farmaavi che.</p>
-      <ul>
-        <li>🗓️ 1ère session : le mardi 19 août de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 2ème session : le mercredi 27 août de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 3ème session : le vendredi 29 août de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 4ème session : le mardi 02 septembre de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 5ème session : le mardi 09 septembre de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 6ème session : le vendredi 12 septembre de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 7ème session : le mardi 16 septembre de 19h00 à 20h00 (heure française)</li>
-        <li>🗓️ 8ème session : le vendredi 19 septembre de 18h45 à 19h45 (heure française)</li>
-        <li>🗓️ 9ème session : le mardi 23 septembre de 18h45 à 19h45 (heure française)</li>
-      </ul>
-      <div class="btn-area">
-        <a class="btn btn--accent" href="https://forms.gle/nVk7VtF99cjg6hbQ6" target="_blank" rel="noopener">Remplir le formulaire d’inscription</a>
+  <section class="wrap" id="sessions">
+    <div class="head">
+      <h3 class="title">Ashara Mubaraka 1447H — Sessions Istibsaar 🇫🇷</h3>
+      <p class="lead">Aa saal, Ashara Mubaraka 1447H ma, Aqa Maula TUS ye je aflaak ane taarao ni zikr farmaawi ehna si Francophone Mumineen barakat haasil kare te vaaste Huzurala TUS ye karam ane ehsaan farmavi ne makhsoos istibsaar na online sessions ni Raza Mubarak fadal farmaavi che.</p>
+    </div>
+    <div class="card">
+      <p>Pour participer, merci de compléter le formulaire ci-dessous :</p>
+      <div class="center">
+        <a class="btn btn--accent" href="https://forms.gle/nVk7VtF99cjg6hbQ6" target="_blank" rel="noopener">Formulaire d’inscription</a>
       </div>
-      <p class="hint" style="text-align:center;margin-top:8px;">Merci de remplir le formulaire <strong>avant le dimanche 10 août</strong>.</p>
+      <p class="lead" style="text-align:center;margin-top:10px;">À remplir <strong>avant le dimanche 10 août</strong>.</p>
     </div>
   </section>
+
+  <div class="divider wrap"></div>
+
+  <!-- VAHEZ -->
+  <section class="wrap" id="vahez">
+    <div class="head">
+      <h3 class="title">Les Vahez (2ᵉ → 10ᵉ Muharram)</h3>
+      <p class="lead">Clique sur une carte pour ouvrir le PDF correspondant. (Pas d’aperçu, juste le document complet.)</p>
+    </div>
+
+    <div class="grid">
+      <div class="vahez">
+        <h3>Al-Falak al-Muheet</h3>
+        <p>Orbite enveloppante — sphère la plus extérieure qui embrasse l’univers.</p>
+        <a href="2nd Muharram al Haraam (1).pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Falak al-Buruj</h3>
+        <p>Sphère des étoiles fixes & constellations, demeures des « buruj ».</p>
+        <a href="3rd Muharram al Haraam.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Zohal (Saturne)</h3>
+        <p>Discipline & endurance — maître de l’effort et des épreuves.</p>
+        <a href="4th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Mushtari (Jupiter)</h3>
+        <p>Prospérité & noblesse — la « bonne fortune » s’acquiert par l’effort.</p>
+        <a href="5th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Mirrikh (Mars)</h3>
+        <p>Force, courage & résilience — protection et fermeté.</p>
+        <a href="6th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Zuhra (Vénus)</h3>
+        <p>Harmonie, beauté & grâce — équilibre du cœur.</p>
+        <a href="7th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>ʿUtarid (Mercure)</h3>
+        <p>Vivacité & clarté — liaison entre savoir et action.</p>
+        <a href="8th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Shams (Soleil)</h3>
+        <p>Lumière & guidance — source de chaleur et de vie.</p>
+        <a href="9eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+
+      <div class="vahez">
+        <h3>Qamar (Lune)</h3>
+        <p>Réceptivité & cycles — miroir de la lumière solaire.</p>
+        <a href="10eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider wrap"></div>
 
   <!-- QUIZ -->
-  <section id="quiz" class="wrap quiz">
-    <h3 class="title">Quiz interactif — 20 questions</h3>
-    <div class="box" id="quizBox">
-      <div class="progress"><div class="bar" id="bar"></div></div>
+  <section class="wrap" id="quiz">
+    <div class="head">
+      <h3 class="title">Quiz interactif — 20 questions</h3>
+      <p class="lead">Une question à la fois, feedback immédiat, progression visible. Rejoue autant que tu veux.</p>
+    </div>
 
-      <!-- 1-5 -->
-      <div class="q" data-q="q1"><h4>1) Quelle sphère est « enveloppante » et la plus extérieure ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q1" value="A"> Falak al-Buruj</label>
-          <label class="choice"><input type="radio" name="q1" value="B"> Al-Falak al-Muheet</label>
-          <label class="choice"><input type="radio" name="q1" value="C"> Shams</label>
-        </div><div class="exp" data-exp="q1"></div></div>
-
-      <div class="q" data-q="q2"><h4>2) Zohal (Saturne) renvoie surtout à…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q2" value="A"> La prospérité immédiate</label>
-          <label class="choice"><input type="radio" name="q2" value="B"> La discipline et l’endurance</label>
-          <label class="choice"><input type="radio" name="q2" value="C"> La communication</label>
-        </div><div class="exp" data-exp="q2"></div></div>
-
-      <div class="q" data-q="q3"><h4>3) Mushtari (Jupiter) est associé à…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q3" value="A"> La « bonne fortune » acquise par l’effort</label>
-          <label class="choice"><input type="radio" name="q3" value="B"> Les cycles de la lune</label>
-          <label class="choice"><input type="radio" name="q3" value="C"> L’éloquence</label>
-        </div><div class="exp" data-exp="q3"></div></div>
-
-      <div class="q" data-q="q4"><h4>4) Quelle planète symbolise force et résilience ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q4" value="A"> Zuhra (Vénus)</label>
-          <label class="choice"><input type="radio" name="q4" value="B"> Mirrikh (Mars)</label>
-          <label class="choice"><input type="radio" name="q4" value="C"> ʿUtarid (Mercure)</label>
-        </div><div class="exp" data-exp="q4"></div></div>
-
-      <div class="q" data-q="q5"><h4>5) Falak al-Buruj concerne principalement…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q5" value="A"> Les constellations et leurs demeures</label>
-          <label class="choice"><input type="radio" name="q5" value="B"> Les océans</label>
-          <label class="choice"><input type="radio" name="q5" value="C"> Les montagnes</label>
-        </div><div class="exp" data-exp="q5"></div></div>
-
-      <!-- 6-10 -->
-      <div class="q" data-q="q6"><h4>6) Quel astre est lié à l’harmonie et la grâce ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q6" value="A"> Zuhra (Vénus)</label>
-          <label class="choice"><input type="radio" name="q6" value="B"> Shams</label>
-          <label class="choice"><input type="radio" name="q6" value="C"> Qamar</label>
-        </div><div class="exp" data-exp="q6"></div></div>
-
-      <div class="q" data-q="q7"><h4>7) ʿUtarid (Mercure) symbolise surtout…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q7" value="A"> La clarté et la vivacité</label>
-          <label class="choice"><input type="radio" name="q7" value="B"> La patience</label>
-          <label class="choice"><input type="radio" name="q7" value="C"> La rigueur</label>
-        </div><div class="exp" data-exp="q7"></div></div>
-
-      <div class="q" data-q="q8"><h4>8) Shams (Soleil) renvoie à…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q8" value="A"> L’équilibre</label>
-          <label class="choice"><input type="radio" name="q8" value="B"> La lumière et la guidance</label>
-          <label class="choice"><input type="radio" name="q8" value="C"> La discrétion</label>
-        </div><div class="exp" data-exp="q8"></div></div>
-
-      <div class="q" data-q="q9"><h4>9) Qamar (Lune) est surtout la métaphore de…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q9" value="A"> La chaleur</label>
-          <label class="choice"><input type="radio" name="q9" value="B"> La réceptivité et les cycles</label>
-          <label class="choice"><input type="radio" name="q9" value="C"> La puissance brute</label>
-        </div><div class="exp" data-exp="q9"></div></div>
-
-      <div class="q" data-q="q10"><h4>10) Quel acte protège avant un voyage, selon l’enseignement rapporté ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q10" value="A"> Offrir sadaqa</label>
-          <label class="choice"><input type="radio" name="q10" value="B"> Dormir tôt</label>
-          <label class="choice"><input type="radio" name="q10" value="C"> Manger léger</label>
-        </div><div class="exp" data-exp="q10"></div></div>
-
-      <!-- 11-15 -->
-      <div class="q" data-q="q11"><h4>11) Le khamr (alcool) est…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q11" value="A"> Permis en petite quantité</label>
-          <label class="choice"><input type="radio" name="q11" value="B"> Haram, même en petite quantité</label>
-          <label class="choice"><input type="radio" name="q11" value="C"> Recommandé en médecine</label>
-        </div><div class="exp" data-exp="q11"></div></div>
-
-      <div class="q" data-q="q12"><h4>12) Quelle invocation simple protège la maison au quotidien ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q12" value="A"> Salam</label>
-          <label class="choice"><input type="radio" name="q12" value="B"> Bismillah</label>
-          <label class="choice"><input type="radio" name="q12" value="C"> Marhaba</label>
-        </div><div class="exp" data-exp="q12"></div></div>
-
-      <div class="q" data-q="q13"><h4>13) Le mithaaq crée surtout…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q13" value="A"> Une obligation fiscale</label>
-          <label class="choice"><input type="radio" name="q13" value="B"> Une connexion au Wali Allah</label>
-          <label class="choice"><input type="radio" name="q13" value="C"> Un vœu temporaire</label>
-        </div><div class="exp" data-exp="q13"></div></div>
-
-      <div class="q" data-q="q14"><h4>14) Que signifie l’épisode de « radd al-shams » ?</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q14" value="A"> La lune s’est levée tôt</label>
-          <label class="choice"><input type="radio" name="q14" value="B"> Le soleil a été “ramené” pour Asr</label>
-          <label class="choice"><input type="radio" name="q14" value="C"> Une éclipse a duré trois jours</label>
-        </div><div class="exp" data-exp="q14"></div></div>
-
-      <div class="q" data-q="q15"><h4>15) Le Sirat-e-Mustaqeem est décrit comme…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q15" value="A"> Large et facile</label>
-          <label class="choice"><input type="radio" name="q15" value="B"> Plus fin qu’un cheveu et plus tranchant qu’une lame</label>
-          <label class="choice"><input type="radio" name="q15" value="C"> Un chemin circulaire</label>
-        </div><div class="exp" data-exp="q15"></div></div>
-
-      <!-- 16-20 -->
-      <div class="q" data-q="q16"><h4>16) Le thème « science & foi » enseigne que…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q16" value="A"> La science contredit la foi</label>
-          <label class="choice"><input type="radio" name="q16" value="B"> Science et foi s’accordent si bien comprises</label>
-          <label class="choice"><input type="radio" name="q16" value="C"> La foi doit ignorer la science</label>
-        </div><div class="exp" data-exp="q16"></div></div>
-
-      <div class="q" data-q="q17"><h4>17) Donner sadaqa à une personne non-musulmane est…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q17" value="A"> Non autorisé</label>
-          <label class="choice"><input type="radio" name="q17" value="B"> Autorisé</label>
-          <label class="choice"><input type="radio" name="q17" value="C"> Obligatoire chaque vendredi</label>
-        </div><div class="exp" data-exp="q17"></div></div>
-
-      <div class="q" data-q="q18"><h4>18) Le walayat du Wali Allah permet surtout…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q18" value="A"> D’éviter toute difficulté</label>
-          <label class="choice"><input type="radio" name="q18" value="B"> De traverser l’épreuve avec force et sérénité</label>
-          <label class="choice"><input type="radio" name="q18" value="C"> De ne pas prier</label>
-        </div><div class="exp" data-exp="q18"></div></div>
-
-      <div class="q" data-q="q19"><h4>19) L’éthique de travail transmise aux étudiants inclut…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q19" value="A"> Uniquement l’étude théorique</label>
-          <label class="choice"><input type="radio" name="q19" value="B"> Des tâches humbles et formatrices</label>
-          <label class="choice"><input type="radio" name="q19" value="C"> L’arrêt du service</label>
-        </div><div class="exp" data-exp="q19"></div></div>
-
-      <div class="q" data-q="q20"><h4>20) Le jour d’Ashura, les éclipses décrites sont…</h4>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="q20" value="A"> Un événement naturel banal</label>
-          <label class="choice"><input type="radio" name="q20" value="B"> Des signes extraordinaires face à l’injustice</label>
-          <label class="choice"><input type="radio" name="q20" value="C"> Un mythe sans symbolisme</label>
-        </div><div class="exp" data-exp="q20"></div></div>
-
-      <div class="controls">
-        <button class="btn-quiz btn-quiz--accent" id="finish">Terminer</button>
-        <button class="btn-quiz" id="reset">Réinitialiser</button>
+    <div class="quiz">
+      <div class="qbox" id="qbox" aria-live="polite">
+        <div class="prog" aria-hidden="true"><div class="bar" id="bar"></div></div>
+        <div class="qmeta">
+          <div id="qIndex">Question 1 / 20</div>
+          <div id="qScore" aria-live="polite">Score : 0</div>
+        </div>
+        <div class="question" id="qTitle">…</div>
+        <div class="choices" id="qChoices"></div>
+        <div class="exp" id="qExp" aria-live="polite"></div>
+        <div class="controls">
+          <button class="pill" id="prevBtn" disabled>← Précédent</button>
+          <div style="display:flex;gap:10px">
+            <button class="pill" id="checkBtn" disabled>Valider</button>
+            <button class="pill pill--accent" id="nextBtn" disabled>Suivant →</button>
+          </div>
+          <button class="pill" id="resetBtn">Rejouer</button>
+        </div>
+        <div class="final" id="finalResult" aria-live="polite"></div>
       </div>
-      <div class="result" id="quizResult" aria-live="polite"></div>
     </div>
   </section>
+
+  <div class="divider wrap"></div>
 </main>
 
-<footer>
-  © 1447H–2025 — ASHARA 1447 ISTIBSAAR
-</footer>
-
-<!-- Modal preview -->
-<div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Aperçu du PDF">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 id="modalTitle">Aperçu</h4>
-      <button class="close" id="closeModal" aria-label="Fermer">Fermer</button>
-    </div>
-    <div class="modal-body">
-      <iframe id="modalFrame" title="Aperçu PDF"></iframe>
-    </div>
-  </div>
-</div>
-
 <script>
-  /* Parallaxe légère */
-  const sky = document.getElementById('sky');
-  window.addEventListener('mousemove', e=>{
-    const x = (e.clientX / window.innerWidth - .5) * 8;
-    const y = (e.clientY / window.innerHeight - .5) * 8;
-    sky.style.transform = `translate(${x}px, ${y}px)`;
-  });
+/* ---------- CONSTELLATIONS ANIMÉES ---------- */
+const canvas = document.getElementById('constel');
+const ctx = canvas.getContext('2d');
+function sizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}
+sizeCanvas(); addEventListener('resize', sizeCanvas, {passive:true});
 
-  /* Animate cards on scroll */
-  const cards = document.querySelectorAll('.card');
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }});
-  }, {threshold:.15});
-  cards.forEach(c=>io.observe(c));
+const N=90;
+const stars = Array.from({length:N},()=>({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*1.4+0.3,
+  vx: (Math.random()-.5)*0.2,
+  vy: (Math.random()-.5)*0.2
+}));
+const mouse={x:-9999,y:-9999};
+addEventListener('mousemove', e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});
+addEventListener('mouseleave', ()=>{mouse.x=-9999;mouse.y=-9999},{passive:true});
 
-  /* Recherche instantanée */
-  const search = document.getElementById('search');
-  search.addEventListener('input', ()=>{
-    const q = search.value.trim().toLowerCase();
-    cards.forEach(card=>{
-      const hay = (card.innerText + ' ' + (card.dataset.tags||'')).toLowerCase();
-      card.style.display = hay.includes(q) ? '' : 'none';
-    });
-  });
+function loop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const s of stars){
+    s.x+=s.vx; s.y+=s.vy;
+    if(s.x<0||s.x>canvas.width) s.vx*=-1;
+    if(s.y<0||s.y>canvas.height) s.vy*=-1;
 
-  /* Aperçu modal PDF */
-  const modal = document.getElementById('modal');
-  const frame = document.getElementById('modalFrame');
-  const title = document.getElementById('modalTitle');
-  const closeModal = () => { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); frame.src = ''; }
-  document.getElementById('closeModal').addEventListener('click', closeModal);
-  modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
-  document.querySelectorAll('[data-preview]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      frame.src = btn.dataset.preview;
-      title.textContent = 'Aperçu — ' + btn.dataset.title;
-      modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
-    });
-  });
-
-  /* Quiz interactif (20 questions) */
-  const key = {
-    q1:{a:'B',exp:"Al-Falak al-Muheet est l’orbite enveloppante et la plus extérieure."},
-    q2:{a:'B',exp:"Zohal (Saturne) = discipline, endurance, effort."},
-    q3:{a:'A',exp:"Mushtari (Jupiter) = prospérité/« saʿâdat » acquise par l’effort."},
-    q4:{a:'B',exp:"Mirrikh (Mars) = force, courage, résilience."},
-    q5:{a:'A',exp:"Falak al-Buruj = sphère des étoiles fixes et constellations (buruj)."},
-    q6:{a:'A',exp:"Zuhra (Vénus) est liée à l’harmonie et la grâce."},
-    q7:{a:'A',exp:"ʿUtarid (Mercure) = vivacité, clarté et liaison savoir-action."},
-    q8:{a:'B',exp:"Shams (Soleil) = lumière et guidance."},
-    q9:{a:'B',exp:"Qamar (Lune) = réceptivité et cycles."},
-    q10:{a:'A',exp:"Offrir sadaqa protège avant (et après) le voyage."},
-    q11:{a:'B',exp:"Le khamr est haram, même en petite quantité."},
-    q12:{a:'B',exp:"Dire Bismillah protège et discipline les actes quotidiens."},
-    q13:{a:'B',exp:"Le mithaaq connecte au Wali Allah."},
-    q14:{a:'B',exp:"Radd al-shams : le soleil fut “ramené” pour accomplir Asr."},
-    q15:{a:'B',exp:"Sirat-e-Mustaqeem : plus fin qu’un cheveu, plus tranchant qu’une lame."},
-    q16:{a:'B',exp:"Science et foi s’accordent lorsqu’elles sont bien comprises."},
-    q17:{a:'B',exp:"La sadaqa peut être donnée à toute personne dans le besoin."},
-    q18:{a:'B',exp:"Le walayat soutient pour traverser l’épreuve avec force et sérénité."},
-    q19:{a:'B',exp:"L’éthique de travail inclut des tâches humbles et formatrices."},
-    q20:{a:'B',exp:"Les éclipses d’Ashura sont des signes extraordinaires face à l’injustice."}
-  };
-  const totalQ = Object.keys(key).length;
-  const bar = document.getElementById('bar');
-  const resBox = document.getElementById('quizResult');
-  const finishBtn = document.getElementById('finish');
-  const resetBtn = document.getElementById('reset');
-
-  function updateProgress(){
-    const answered = [...document.querySelectorAll('.q')].filter(q => q.querySelector('input:checked')).length;
-    const pct = Math.round((answered/totalQ)*100);
-    bar.style.width = pct + '%';
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,.8)';
+    ctx.fill();
   }
-  function markChoice(qName, value){
-    const q = document.querySelector(`.q[data-q="${qName}"]`);
-    q.querySelectorAll('.choice').forEach(c=>c.classList.remove('correct','wrong'));
-    const correct = key[qName].a;
-    const exp = q.querySelector(`[data-exp="${qName}"]`);
-    const picked = q.querySelector(`input[value="${value}"]`).closest('.choice');
-    if(value === correct){
-      picked.classList.add('correct');
-      exp.innerHTML = "<span class='good'>✔ Correct</span> — " + key[qName].exp;
-    } else {
-      picked.classList.add('wrong');
-      const right = q.querySelector(`input[value="${correct}"]`).closest('.choice');
-      right.classList.add('correct');
-      exp.innerHTML = "<span class='bad'>✘ Incorrect</span> — " + key[qName].exp;
+  for(let i=0;i<N;i++){
+    for(let j=i+1;j<N;j++){
+      const a=stars[i], b=stars[j];
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      const midx=(a.x+b.x)/2, midy=(a.y+b.y)/2;
+      const dm=Math.hypot(midx-mouse.x, midy-mouse.y);
+      const nearMouse = dm<220 ? (1 - dm/220) : 0;
+      if(d<120){
+        ctx.strokeStyle=`rgba(255,255,255,${0.14 + nearMouse*0.25})`;
+        ctx.lineWidth= nearMouse ? 1.2 : 0.6;
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
     }
   }
-  document.querySelectorAll('.q input[type="radio"]').forEach(inp=>{
-    inp.addEventListener('change', e=>{
-      const qName = e.target.name;
-      markChoice(qName, e.target.value);
-      updateProgress();
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ---------- QUIZ ---------- */
+const questions = [
+  {t:"Quelle sphère est « enveloppante » et la plus extérieure ?", c:["Falak al-Buruj","Al-Falak al-Muheet","Shams"], a:1, e:"Al-Falak al-Muheet est l’orbite enveloppante et la plus extérieure."},
+  {t:"Zohal (Saturne) renvoie surtout à…", c:["La prospérité immédiate","La discipline et l’endurance","La communication"], a:1, e:"Zohal = discipline, endurance, effort."},
+  {t:"Mushtari (Jupiter) est associé à…", c:["La bonne fortune acquise par l’effort","Les cycles de la lune","L’éloquence"], a:0, e:"Mushtari = prospérité (saʿâdat) par l’effort."},
+  {t:"Quelle planète symbolise force et résilience ?", c:["Zuhra (Vénus)","Mirrikh (Mars)","ʿUtarid (Mercure)"], a:1, e:"Mirrikh = force, courage, résilience."},
+  {t:"Falak al-Buruj concerne principalement…", c:["Les constellations et leurs demeures","Les océans","Les montagnes"], a:0, e:"Sphère des étoiles fixes et constellations (buruj)."},
+  {t:"Quel astre est lié à l’harmonie et la grâce ?", c:["Zuhra (Vénus)","Shams (Soleil)","Qamar (Lune)"], a:0, e:"Zuhra = harmonie et beauté."},
+  {t:"ʿUtarid (Mercure) symbolise surtout…", c:["La clarté et la vivacité","La patience","La rigueur"], a:0, e:"Vivacité, clarté, liaison savoir-action."},
+  {t:"Shams (Soleil) renvoie à…", c:["L’équilibre","La lumière et la guidance","La discrétion"], a:1, e:"Shams = lumière et guidance."},
+  {t:"Qamar (Lune) est surtout la métaphore de…", c:["La chaleur","La réceptivité et les cycles","La puissance brute"], a:1, e:"Qamar = réceptivité et cycles."},
+  {t:"Quel acte protège avant un voyage ?", c:["Offrir sadaqa","Dormir tôt","Manger léger"], a:0, e:"Offrir sadaqa avant (et après) le voyage."},
+  {t:"Le khamr (alcool) est…", c:["Permis en très petite quantité","Haram, même en petite quantité","Recommandé médicalement"], a:1, e:"Le khamr est haram, même en petite quantité."},
+  {t:"Quelle invocation simple protège la maison au quotidien ?", c:["Salam","Bismillah","Marhaba"], a:1, e:"Dire Bismillah avant d’agir."},
+  {t:"Le mithaaq crée surtout…", c:["Une obligation fiscale","Une connexion au Wali Allah","Un vœu temporaire"], a:1, e:"Le mithaaq connecte au Wali Allah."},
+  {t:"Que signifie « radd al-shams » ?", c:["La lune s’est levée tôt","Le soleil a été “ramené” pour Asr","Une éclipse a duré trois jours"], a:1, e:"Le soleil fut “ramené” pour accomplir Asr."},
+  {t:"Le Sirat-e-Mustaqeem est décrit comme…", c:["Large et facile","Plus fin qu’un cheveu et plus tranchant qu’une lame","Un chemin circulaire"], a:1, e:"Plus fin qu’un cheveu, plus tranchant qu’une lame."},
+  {t:"Science & foi : l’enseignement est que…", c:["La science contredit la foi","Elles s’accordent si bien comprises","La foi doit ignorer la science"], a:1, e:"Elles s’accordent quand elles sont bien comprises."},
+  {t:"Donner sadaqa à une personne non-musulmane est…", c:["Non autorisé","Autorisé","Obligatoire chaque vendredi"], a:1, e:"Autorisé : on aide toute personne dans le besoin."},
+  {t:"Le walayat du Wali Allah permet surtout…", c:["D’éviter toute difficulté","De traverser l’épreuve avec force et sérénité","De ne pas prier"], a:1, e:"Il soutient pour traverser l’épreuve avec force et sérénité."},
+  {t:"L’éthique de travail transmise aux étudiants inclut…", c:["Uniquement l’étude théorique","Des tâches humbles et formatrices","L’arrêt du service"], a:1, e:"Des tâches humbles et formatrices."},
+  {t:"Les éclipses d’Ashura sont…", c:["Un événement banal","Des signes extraordinaires face à l’injustice","Un mythe sans symbolisme"], a:1, e:"Des signes extraordinaires face à l’injustice."}
+];
+
+let idx=0, score=0;
+const qIndex = document.getElementById('qIndex');
+const qScore = document.getElementById('qScore');
+const qTitle = document.getElementById('qTitle');
+const qChoices = document.getElementById('qChoices');
+const qExp = document.getElementById('qExp');
+const bar = document.getElementById('bar');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const checkBtn = document.getElementById('checkBtn');
+const resetBtn = document.getElementById('resetBtn');
+const finalResult = document.getElementById('finalResult');
+
+const picked = new Array(questions.length).fill(null);
+const checked = new Array(questions.length).fill(false);
+const wasCorrect = new Array(questions.length).fill(false);
+
+function render(){
+  const q=questions[idx];
+  qIndex.textContent=`Question ${idx+1} / ${questions.length}`;
+  qScore.textContent=`Score : ${score}`;
+  qTitle.textContent=q.t;
+  qChoices.innerHTML=''; qExp.textContent=''; finalResult.textContent='';
+
+  q.c.forEach((label,i)=>{
+    const el=document.createElement('button');
+    el.type='button';
+    el.className='choice';
+    el.textContent=label;
+    el.setAttribute('aria-pressed', 'false');
+    el.addEventListener('click', ()=>{
+      picked[idx]=i;
+      qChoices.querySelectorAll('.choice').forEach(c=>{
+        c.classList.remove('selected','correct','wrong');
+        c.setAttribute('aria-pressed','false');
+      });
+      el.classList.add('selected');
+      el.setAttribute('aria-pressed','true');
+      checkBtn.disabled=false; 
+      nextBtn.disabled=false; // on peut aller au suivant après sélection
     });
+    qChoices.appendChild(el);
   });
 
-  finishBtn.addEventListener('click', ()=>{
-    let score = 0;
-    for(const qName in key){
-      const sel = document.querySelector(`input[name="${qName}"]:checked`);
-      if(sel && sel.value === key[qName].a) score++;
-    }
-    resBox.textContent = `Score : ${score} / ${totalQ}`;
-    resBox.style.color = score===totalQ ? 'var(--ok)' : 'var(--accent)';
+  if(picked[idx]!==null){
+    const node=qChoices.children[picked[idx]];
+    if(node) { node.classList.add('selected'); node.setAttribute('aria-pressed','true'); }
+    checkBtn.disabled=false;
+    if(checked[idx]){ markChoices(); }
+    else { nextBtn.disabled=false; }
+  }else{
+    checkBtn.disabled=true; nextBtn.disabled=true;
+  }
+  prevBtn.disabled = idx===0;
+
+  const answered = checked.filter(Boolean).length;
+  bar.style.width = Math.round(answered/questions.length*100)+'%';
+}
+
+function markChoices(){
+  const q=questions[idx];
+  const choiceNodes=[...qChoices.children];
+
+  choiceNodes.forEach(n=>{ n.style.pointerEvents='none'; n.tabIndex=-1; });
+
+  choiceNodes.forEach((n,i)=>{
+    if(i===q.a) n.classList.add('correct');
+    if(picked[idx]===i && i!==q.a) n.classList.add('wrong');
   });
 
-  resetBtn.addEventListener('click', ()=>{
-    document.querySelectorAll('.q input[type="radio"]').forEach(i=>i.checked=false);
-    document.querySelectorAll('.choice').forEach(c=>c.classList.remove('correct','wrong'));
-    document.querySelectorAll('.exp').forEach(e=>e.textContent='');
-    resBox.textContent = '';
-    bar.style.width = '0%';
-  });
+  const correctNow = picked[idx]===q.a;
+  if(!checked[idx]){ if(correctNow) score++; wasCorrect[idx]=correctNow; checked[idx]=true; }
+  qScore.textContent=`Score : ${score}`;
+  qExp.innerHTML = (correctNow? "<span style='color:var(--ok);font-weight:800'>✔ Correct</span> — " : "<span style='color:var(--ko);font-weight:800'>✘ Incorrect</span> — ") + q.e;
+  nextBtn.disabled = false;
+}
+
+prevBtn.addEventListener('click', ()=>{ if(idx>0){ idx--; render(); }});
+nextBtn.addEventListener('click', ()=>{
+  // Si pas validé mais une réponse choisie, on valide automatiquement puis on passe
+  if(!checked[idx] && picked[idx]!==null){ 
+    markChoices(); 
+  }
+  if(idx<questions.length-1){ idx++; render(); }
+  else{
+    finalResult.innerHTML = `Résultat final : <strong>${score} / ${questions.length}</strong><br>`+
+      (score>16 ? "🌟 Excellent ! Tu maîtrises les Vahez." :
+       score>12 ? "✨ Très bien ! Encore un petit effort." :
+       score>8  ? "👍 Pas mal — révise quelques points." :
+                   "📚 Continue tes révisions, tu y es presque !");
+  }
+});
+checkBtn.addEventListener('click', ()=>{
+  if(picked[idx]===null) return;
+  markChoices();
+});
+resetBtn.addEventListener('click', ()=>{
+  idx=0; score=0;
+  picked.fill(null); checked.fill(false); wasCorrect.fill(false);
+  bar.style.width='0%'; finalResult.textContent='';
+  // réactive le pointerEvents
+  [...qChoices.children].forEach(n=>{ n.style.pointerEvents='auto'; n.tabIndex=0; });
+  render();
+});
+
+// Raccourcis clavier
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && !checkBtn.disabled){ e.preventDefault(); checkBtn.click(); }
+  if(e.key==='ArrowRight' && !nextBtn.disabled){ e.preventDefault(); nextBtn.click(); }
+  if(e.key==='ArrowLeft' && !prevBtn.disabled){ e.preventDefault(); prevBtn.click(); }
+},{passive:false});
+
+render();
 </script>
 </body>
 </html>
