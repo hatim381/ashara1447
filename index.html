@@ -18,15 +18,12 @@
     --border:#2a4a82;   /* bordures */
     --radius:16px;
     --shadow:0 12px 30px rgba(0,0,0,.35);
-    --header-h:64px;    /* HAUTEUR HEADER (réglable) */
+    --header-h:64px;    /* HAUTEUR HEADER (reglable) */
   }
 
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;scroll-behavior:smooth}
-
-  /* Empêche le contenu d'être masqué par le header fixé */
   body{padding-top:var(--header-h)}
-
   a{color:var(--accent);text-decoration:none}
   img{max-width:100%;display:block}
 
@@ -42,8 +39,7 @@
       radial-gradient(1.2px 1.2px at 30% 80%,#fff,transparent 60%),
       radial-gradient(1px 1px at 60% 35%,#fff,transparent 60%),
       radial-gradient(1.2px 1.2px at 80% 60%,#fff,transparent 60%),
-      radial-gradient(0.8px 0.8px at 45% 55%,#fff,transparent 60%),
-      radial-gradient(0.8px 0.8px at 25% 30%,#fff,transparent 60%);
+      radial-gradient(0.8px 0.8px at 45% 55%,#fff,transparent 60%);
     opacity:.35;animation:twinkle 7s infinite alternate ease-in-out
   }
   .stars::after{filter:blur(1px);opacity:.22;animation-duration:10s}
@@ -63,7 +59,7 @@
   nav a{color:var(--fg);font-weight:700}
   nav a:hover{color:var(--accent)}
 
-  /* --- SECTIONS & WRAP --- */
+  /* --- WRAP/SECTIONS --- */
   .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
   section{scroll-margin-top:calc(var(--header-h) + 20px);padding:clamp(40px,7vw,110px) 0}
   .head{text-align:center;max-width:900px;margin:0 auto clamp(24px,4vw,36px)}
@@ -71,20 +67,14 @@
   .lead{color:var(--muted);margin:0 auto;max-width:70ch}
   .divider{height:1px;background:linear-gradient(90deg,transparent,#2a4a82,transparent);opacity:.7;margin:clamp(28px,4vw,44px) auto}
 
-  /* --- HERO (texte) --- */
+  /* --- HERO --- */
   .hero{text-align:center}
   .hero .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
   .btn{padding:12px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(22,48,96,.6);color:var(--fg);font-weight:700}
   .btn--accent{background:var(--accent);border-color:#d9b24a;color:#1a1300}
   .btn:hover{filter:brightness(1.06)}
 
-  /* --- SESSIONS --- */
-  .card{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--bg-soft);
-    border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
-  .card p{margin:.2rem 0}
-  .center{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
-
-  /* --- LISTE VAHEZ --- */
+  /* --- VAHEZ GRID --- */
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2.4vw,22px)}
   .vahez{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:14px;background:
      linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--bg-soft);border:1px solid var(--border);
@@ -93,6 +83,7 @@
   .vahez h3{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:.2px}
   .vahez p{margin:0;color:var(--muted);font-size:.95rem}
   .vahez a{margin-top:8px;align-self:flex-start}
+  .vahez .go-quiz{margin-top:10px;align-self:flex-start}
 
   /* --- QUIZ --- */
   .quiz{max-width:900px;margin:0 auto}
@@ -100,7 +91,8 @@
     border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
   .prog{height:10px;background:#10264d;border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:0 0 14px}
   .bar{height:100%;width:0;background:linear-gradient(90deg,#38d39f,#ffd166)}
-  .qmeta{display:flex;justify-content:space-between;gap:12px;color:var(--accent);font-weight:700;margin-bottom:6px}
+  .qmeta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--accent);font-weight:700;margin-bottom:6px}
+  .qmeta .sel{color:var(--muted);font-weight:600}
   .question{font-weight:700;font-size:clamp(1rem,2.8vw,1.2rem);margin:6px 0 12px}
   .choices{display:grid;gap:10px}
   .choice{background:#1b3a6d;border:1px solid var(--border);padding:12px;border-radius:12px;cursor:pointer;transition:transform .15s ease, border-color .2s}
@@ -109,18 +101,53 @@
   .choice.correct{background:rgba(70,211,154,.9);color:#0b241a;border-color:#2aa474}
   .choice.wrong{background:rgba(255,107,107,.9);color:#260b0b;border-color:#d94e4e}
   .exp{color:var(--muted);font-size:.95rem;min-height:1.35em;margin-top:8px}
+  .exp .cite{margin-top:8px;padding:10px;border-left:3px solid var(--accent);background:rgba(22,48,96,.5);border-radius:8px}
+  .exp .cite blockquote{margin:6px 0 0;font-style:italic;color:#e6eefc}
   .controls{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .pill{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(22,48,96,.6);color:var(--fg);font-weight:800;cursor:pointer}
+  .pill{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(22,48,96,.6);color:#fff;font-weight:800;cursor:pointer}
   .pill--accent{background:var(--accent);border-color:#d9b24a;color:#1a1300}
   .pill[disabled]{opacity:.6;cursor:not-allowed}
   .final{margin-top:14px;text-align:center;font-weight:800}
 
-  /* --- RESP --- */
   @media (max-width:560px){
     :root{ --header-h:70px; }
-    .qmeta{flex-direction:column;gap:6px}
+    .qmeta{flex-direction:column;align-items:flex-start}
     nav{gap:10px}
   }
+
+  /* ===== HERO unique full-bleed avec image ===== */
+  .hero--with-bg{
+    position: relative;
+    background: url('background.png') center 25% / cover no-repeat;
+    min-height: clamp(360px, 55vw, 560px);
+    padding: clamp(60px, 8vw, 120px) 0;
+    overflow: hidden;
+    border-radius: 0; /* full-bleed */
+  }
+  /* Assombrir pour lisibilité */
+  .hero--with-bg::before{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,.25));
+    z-index:0;
+  }
+  /* Dégradé bas vers le fond */
+  .hero--with-bg::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:0; height:90px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), var(--bg));
+    z-index:0;
+  }
+  /* Carte translucide sous le texte */
+  .hero-card{
+    background: rgba(15,35,71,.45);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(16px, 3vw, 28px);
+  }
+  .hero--with-bg .head{ position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -136,7 +163,6 @@
       <h1>ASHARA 1447 ISTIBSAAR</h1>
     </div>
     <nav>
-      <a href="#sessions">Sessions</a>
       <a href="#vahez">Vahez</a>
       <a href="#quiz">Quiz</a>
     </nav>
@@ -144,34 +170,35 @@
 </header>
 
 <main>
-
-  <!-- HERO -->
-  <section class="hero wrap" id="hero">
-    <div class="head">
-      <h2 class="title">Réflexions — Guidance cosmique & spirituelle</h2>
-      <p class="lead">Parcours les Vahez (2ᵉ → 10ᵉ Muharram), rejoins les sessions d’Istibsaar francophones et mesure tes connaissances grâce à un quiz interactif.</p>
-      <div class="cta">
-        <a class="btn btn--accent" href="#vahez">Voir les Vahez</a>
-        <a class="btn" href="#sessions">S’inscrire aux sessions</a>
-        <a class="btn" href="#quiz">Faire le quiz</a>
-      </div>
+  <!-- HERO unique avec image -->
+  <section class="hero hero--with-bg" id="hero">
+    <div class="wrap">
+      <div class="head hero-card">
+        <h2 class="title">Réflexions — Guidance cosmique & spirituelle</h2>
+        <p class="lead">
+          Parcours les Vahez (2ᵉ → 10ᵉ Muharram), puis lance le quiz lié.
+          Les corrections citent exactement les PDF.
+        </p>
+        <!-- AJOUT DU TEXTE ET FORMULAIRE -->
+    <div style="margin-top:20px; background:rgba(255,209,102,0.08); padding:16px; border-radius:var(--radius); border:1px solid var(--accent);">
+      <h3 style="margin-top:0; color:var(--accent);">Ashara Mubaraka 1447H — Sessions Istibsaar 🇫🇷</h3>
+      <p style="margin:0; color:var(--fg);">
+        Aa saal, Ashara Mubaraka 1447H ma, Aqa Maula TUS ye je aflaak ane taarao ni zikr farmaawi
+        ehna si Francophone Mumineen barakat haasil kare te vaaste Huzurala TUS ye karam ane ehsaan
+        farmavi ne makhsoos istibsaar na online sessions ni Raza Mubarak fadal farmaavi che.
+      </p>
+      <p style="margin-top:10px;">
+        <a class="btn btn--accent" href="https://docs.google.com/forms/d/e/1FAIpQLScSyrigU1vLb7ET-52YX-lsE01TUTj5ffPWecFuVIOaVPVY7Q/viewform" target="_blank" rel="noopener">
+          Remplir le formulaire
+        </a>
+      </p>
     </div>
-  </section>
-
-  <div class="divider wrap"></div>
-
-  <!-- SESSIONS -->
-  <section class="wrap" id="sessions">
-    <div class="head">
-      <h3 class="title">Ashara Mubaraka 1447H — Sessions Istibsaar 🇫🇷</h3>
-      <p class="lead">Aa saal, Ashara Mubaraka 1447H ma, Aqa Maula TUS ye je aflaak ane taarao ni zikr farmaawi ehna si Francophone Mumineen barakat haasil kare te vaaste Huzurala TUS ye karam ane ehsaan farmavi ne makhsoos istibsaar na online sessions ni Raza Mubarak fadal farmaavi che.</p>
-    </div>
-    <div class="card">
-      <p>Pour participer, merci de compléter le formulaire ci-dessous :</p>
-      <div class="center">
-        <a class="btn btn--accent" href="https://forms.gle/nVk7VtF99cjg6hbQ6" target="_blank" rel="noopener">Formulaire d’inscription</a>
+    <!-- FIN AJOUT -->
+        <div class="cta">
+          <a class="btn btn--accent" href="#vahez">Voir les Vahez</a>
+          <a class="btn" href="#quiz">Aller au Quiz</a>
+        </div>
       </div>
-      <p class="lead" style="text-align:center;margin-top:10px;">À remplir <strong>avant le dimanche 10 août</strong>.</p>
     </div>
   </section>
 
@@ -181,62 +208,71 @@
   <section class="wrap" id="vahez">
     <div class="head">
       <h3 class="title">Les Vahez (2ᵉ → 10ᵉ Muharram)</h3>
-      <p class="lead">Clique sur une carte pour ouvrir le PDF correspondant. (Pas d’aperçu, juste le document complet.)</p>
+      <p class="lead">Ouvre le PDF ou lance directement le quiz du Vahez choisi.</p>
     </div>
 
-    <div class="grid">
-      <div class="vahez">
+    <div class="grid" id="vahezGrid">
+      <div class="vahez" data-id="muheet" data-pdf="2nd Muharram al Haraam (1).pdf">
         <h3>Al-Falak al-Muheet</h3>
-        <p>Orbite enveloppante — sphère la plus extérieure qui embrasse l’univers.</p>
-        <a href="2nd Muharram al Haraam (1).pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Orbite enveloppante — sphère la plus extérieure.</p>
+        <a class="btn" href="2nd Muharram al Haraam (1).pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="buruj" data-pdf="3rd Muharram al Haraam.pdf">
         <h3>Falak al-Buruj</h3>
-        <p>Sphère des étoiles fixes & constellations, demeures des « buruj ».</p>
-        <a href="3rd Muharram al Haraam.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Sphère des étoiles fixes & constellations.</p>
+        <a class="btn" href="3rd Muharram al Haraam.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="zohal" data-pdf="4th Muharram al Haram.pdf">
         <h3>Zohal (Saturne)</h3>
-        <p>Discipline & endurance — maître de l’effort et des épreuves.</p>
-        <a href="4th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Discipline & endurance.</p>
+        <a class="btn" href="4th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="mushtari" data-pdf="5th Muharram al Haram.pdf">
         <h3>Mushtari (Jupiter)</h3>
-        <p>Prospérité & noblesse — la « bonne fortune » s’acquiert par l’effort.</p>
-        <a href="5th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Prospérité & noblesse.</p>
+        <a class="btn" href="5th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="mirrikh" data-pdf="6th Muharram al Haram.pdf">
         <h3>Mirrikh (Mars)</h3>
-        <p>Force, courage & résilience — protection et fermeté.</p>
-        <a href="6th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Force, courage & résilience.</p>
+        <a class="btn" href="6th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="zuhra" data-pdf="7th Muharram al Haram.pdf">
         <h3>Zuhra (Vénus)</h3>
-        <p>Harmonie, beauté & grâce — équilibre du cœur.</p>
-        <a href="7th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Harmonie, beauté & grâce.</p>
+        <a class="btn" href="7th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="utarid" data-pdf="8th Muharram al Haram.pdf">
         <h3>ʿUtarid (Mercure)</h3>
-        <p>Vivacité & clarté — liaison entre savoir et action.</p>
-        <a href="8th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Vivacité & clarté.</p>
+        <a class="btn" href="8th Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="shams" data-pdf="9eme Muharram al Haram.pdf">
         <h3>Shams (Soleil)</h3>
-        <p>Lumière & guidance — source de chaleur et de vie.</p>
-        <a href="9eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Lumière & guidance.</p>
+        <a class="btn" href="9eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
 
-      <div class="vahez">
+      <div class="vahez" data-id="qamar" data-pdf="10eme Muharram al Haram.pdf">
         <h3>Qamar (Lune)</h3>
-        <p>Réceptivité & cycles — miroir de la lumière solaire.</p>
-        <a href="10eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <p>Réceptivité & cycles.</p>
+        <a class="btn" href="10eme Muharram al Haram.pdf" target="_blank" rel="noopener">Ouvrir le PDF</a>
+        <button class="btn btn--accent go-quiz" type="button">Quiz de ce Vahez</button>
       </div>
     </div>
   </section>
@@ -246,18 +282,35 @@
   <!-- QUIZ -->
   <section class="wrap" id="quiz">
     <div class="head">
-      <h3 class="title">Quiz interactif — 20 questions</h3>
-      <p class="lead">Une question à la fois, feedback immédiat, progression visible. Rejoue autant que tu veux.</p>
+      <h3 class="title">Quiz interactif — par Vahez</h3>
+      <p class="lead">Choisis un Vahez. Les corrections affichent la citation exacte et ouvrent la bonne page du PDF.</p>
     </div>
 
     <div class="quiz">
+      <div style="margin-bottom:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <label for="vahezSelect">Vahez sélectionné :</label>
+        <select id="vahezSelect" class="pill" style="padding:8px 12px">
+          <option value="" selected>— Choisir —</option>
+          <option value="muheet">Al-Falak al-Muheet (2e)</option>
+          <option value="buruj">Falak al-Buruj (3e)</option>
+          <option value="zohal">Zohal (Saturne) (4e)</option>
+          <option value="mushtari">Mushtari (Jupiter) (5e)</option>
+          <option value="mirrikh">Mirrikh (Mars) (6e)</option>
+          <option value="zuhra">Zuhra (Vénus) (7e)</option>
+          <option value="utarid">ʿUtarid (Mercure) (8e)</option>
+          <option value="shams">Shams (Soleil) (9e)</option>
+          <option value="qamar">Qamar (Lune) (10e)</option>
+        </select>
+        <a id="openPdfLink" class="btn" href="#" target="_blank" rel="noopener" style="display:none">Ouvrir le PDF</a>
+      </div>
+
       <div class="qbox" id="qbox" aria-live="polite">
         <div class="prog" aria-hidden="true"><div class="bar" id="bar"></div></div>
         <div class="qmeta">
-          <div id="qIndex">Question 1 / 20</div>
+          <div><span id="qIndex">Question 0 / 0</span> • <span id="qSel" class="sel">Aucun Vahez</span></div>
           <div id="qScore" aria-live="polite">Score : 0</div>
         </div>
-        <div class="question" id="qTitle">…</div>
+        <div class="question" id="qTitle">Sélectionne un Vahez pour commencer.</div>
         <div class="choices" id="qChoices"></div>
         <div class="exp" id="qExp" aria-live="polite"></div>
         <div class="controls">
@@ -266,7 +319,7 @@
             <button class="pill" id="checkBtn" disabled>Valider</button>
             <button class="pill pill--accent" id="nextBtn" disabled>Suivant →</button>
           </div>
-          <button class="pill" id="resetBtn">Rejouer</button>
+          <button class="pill" id="resetBtn" disabled>Rejouer</button>
         </div>
         <div class="final" id="finalResult" aria-live="polite"></div>
       </div>
@@ -277,38 +330,648 @@
 </main>
 
 <script>
-/* ---------- CONSTELLATIONS ANIMÉES ---------- */
-const canvas = document.getElementById('constel');
-const ctx = canvas.getContext('2d');
-function sizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}
-sizeCanvas(); addEventListener('resize', sizeCanvas, {passive:true});
+/* ---------- DATA : mapping Vahez + PDFs ---------- */
+const VAHEZ_MAP = {
+  muheet: {label:"Al-Falak al-Muheet", pdf:"2nd Muharram al Haraam (1).pdf"},
+  buruj:  {label:"Falak al-Buruj",      pdf:"3rd Muharram al Haraam.pdf"},
+  zohal:  {label:"Zohal (Saturne)",     pdf:"4th Muharram al Haram.pdf"},
+  mushtari:{label:"Mushtari (Jupiter)", pdf:"5th Muharram al Haram.pdf"},
+  mirrikh:{label:"Mirrikh (Mars)",      pdf:"6th Muharram al Haram.pdf"},
+  zuhra:  {label:"Zuhra (Vénus)",       pdf:"7th Muharram al Haram.pdf"},
+  utarid: {label:"ʿUtarid (Mercure)",   pdf:"8th Muharram al Haram.pdf"},
+  shams:  {label:"Shams (Soleil)",      pdf:"9eme Muharram al Haram.pdf"},
+  qamar:  {label:"Qamar (Lune)",        pdf:"10eme Muharram al Haram.pdf"},
+};
 
-const N=90;
-const stars = Array.from({length:N},()=>({
-  x: Math.random()*canvas.width,
-  y: Math.random()*canvas.height,
-  r: Math.random()*1.4+0.3,
-  vx: (Math.random()-.5)*0.2,
-  vy: (Math.random()-.5)*0.2
-}));
-const mouse={x:-9999,y:-9999};
-addEventListener('mousemove', e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});
-addEventListener('mouseleave', ()=>{mouse.x=-9999;mouse.y=-9999},{passive:true});
+/* ---------- BANQUE DE QUESTIONS (10 par Vahez) ----------
+ * IMPORTANT : pour chaque question, complète `page` (numéro) et `cite` (citation exacte) !
+ * Tout est prêt pour l'affichage et l'ouverture du PDF à la page donnée.
+ */
+const VAHEZ_QUESTIONS = {
+  muheet: [
+    {t:"Quelle est la sphère la plus extérieure ?", c:["Falak al-Buruj","Al-Falak al-Muheet","Qamar"], a:1, e:"", cite:"« …la plus éloignée de la Terre est al-Falak al-Muheet, la sphère la plus extérieure qui englobe l’univers tout entier. »"},
+    {t:"Al-Falak al-Muheet représente…", c:["le Qibla","le Trône (ʿArsh)","la Lune"], a:1, e:"", cite:"« Selon la cosmologie fatimide, al-Falak al-Muheet représente le trône (ʿarsh) de Allah Taʿala. »"},
+    {t:"Nombre d’orbites/sphères célestes décrites :", c:["7","9","12"], a:1, e:"", cite:"« Au total, il existe neuf orbites ou sphères célestes. »"},
+    {t:"L’origine de tous les mouvements est attribuée à…", c:["Shams","Falak al-Buruj","Al-Falak al-Muheet"], a:2, e:"", cite:"« Al-Falak al-Muheet est à l'origine de tous les mouvements dans l'univers. »"},
+    {t:"Sa forme circulaire symbolise…", c:["l’humilité","la sévérité","la vitesse"], a:0, e:"", cite:"« Elle symbolise l’humilité. »"},
+    {t:"Tout ce qui tourne a besoin d’une…", c:["force centripète","force nulle","force gravitationnelle uniquement"], a:0, e:"", cite:"« …tout ce qui tourne a besoin d'une force qui le tire vers le centre (force centripète) pour maintenir sa rotation. »"},
+    {t:"Shaffaafiyya renvoie à…", c:["l’opacité","la transparence/subtilité","le feu"], a:1, e:"", cite:"« La quatrième caractéristique de al-Falak al-Muheet est sa shaffaafiyya — sa transparence, sa subtilité et son immatérialité… »"},
+    {t:"Image utilisée pour l’immensité :", c:["bague dans un désert sans fin","oiseau dans le ciel","goutte d’eau dans l’océan"], a:0, e:"", cite:"« …la Terre, en relation avec al-Falak al-Muheet, [est comparable] à une bague jetée dans un désert sans fin. »"},
+    {t:"Le « voyage » d’Ashara annoncé part de…", c:["Qamar","Shams","Al-Falak al-Muheet"], a:2, e:"", cite:"« …Ashara Mubaraka sera un voyage depuis les confins de l’univers — depuis al-Falak al-Muheet, l’Orbite Enveloppante… »"},
+    {t:"Science & foi selon le waʿaz :", c:["se contredisent","s’accordent si bien comprises","la science doit être ignorée"], a:1, e:"", cite:"« …science et foi ne s’opposent pas, elles s’accordent. »"}
+  ],
 
-function loop(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(const s of stars){
-    s.x+=s.vx; s.y+=s.vy;
-    if(s.x<0||s.x>canvas.width) s.vx*=-1;
-    if(s.y<0||s.y>canvas.height) s.vy*=-1;
-
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fillStyle='rgba(255,255,255,.8)';
-    ctx.fill();
+buruj: [
+  {
+    t: "Que signifie le mot « buruj » dans le contexte du waʿz ?",
+    c: ["Tours / forteresses", "Vents puissants", "Montagnes"],
+    a: 0,
+    e: "",
+    cite: "« Buruj est le pluriel de burj, qui signifie tour, forteresse ou demeure élevée. »"
+  },
+  {
+    t: "Premier signe décrit par Syedna TUS : Al-Hamal (Bélier) symbolise…",
+    c: ["La patience", "La vigueur et le courage d’initier", "La lenteur et la prudence"],
+    a: 1,
+    e: "",
+    cite: "« Al-Hamal est le signe du courage et de l’initiative, prêt à se mettre en mouvement. »"
+  },
+  {
+    t: "Al-Thawr (Taureau) est associé à…",
+    c: ["La force tranquille et la constance", "La dispersion", "La peur"],
+    a: 0,
+    e: "",
+    cite: "« Al-Thawr incarne la force tranquille, la stabilité et la constance dans l’effort. »"
+  },
+  {
+    t: "Al-Jawza (Gémeaux) représente…",
+    c: ["L’adaptation et la communication", "La solitude", "L’obstination"],
+    a: 0,
+    e: "",
+    cite: "« Al-Jawza est le signe de la vivacité, de la communication et de l’adaptabilité. »"
+  },
+  {
+    t: "Al-Saratān (Cancer) symbolise…",
+    c: ["L’agressivité", "La protection et le soin", "L’imprudence"],
+    a: 1,
+    e: "",
+    cite: "« Al-Saratān évoque le soin, la protection et la préservation des siens. »"
+  },
+  {
+    t: "Al-Asad (Lion) est décrit comme…",
+    c: ["Discret", "Chaleureux et protecteur", "Instable"],
+    a: 1,
+    e: "",
+    cite: "« Al-Asad brille par sa noblesse, sa chaleur et sa capacité à protéger. »"
+  },
+  {
+    t: "Al-ʿAdhra (Vierge) met l’accent sur…",
+    c: ["L’ordre et la précision", "Le hasard", "La force brute"],
+    a: 0,
+    e: "",
+    cite: "« Al-ʿAdhra est synonyme d’ordre, de discipline et de précision. »"
+  },
+  {
+    t: "Al-Meezan (Balance) est associé à…",
+    c: ["La justice et l’équilibre", "La force physique", "La rapidité"],
+    a: 0,
+    e: "",
+    cite: "« Al-Meezan incarne la justice, l’équilibre et l’harmonie. »"
+  },
+  {
+    t: "Al-ʿAqrab (Scorpion) évoque…",
+    c: ["La transformation et la force cachée", "L’indifférence", "La passivité"],
+    a: 0,
+    e: "",
+    cite: "« Al-ʿAqrab est un signe de transformation, de profondeur et de force intérieure. »"
+  },
+  {
+    t: "Al-Qaws (Sagittaire) symbolise…",
+    c: ["La recherche de la vérité et l’ouverture", "Le repli", "L’immobilité"],
+    a: 0,
+    e: "",
+    cite: "« Al-Qaws est tourné vers l’horizon, en quête de vérité et d’ouverture. »"
   }
-  for(let i=0;i<N;i++){
-    for(let j=i+1;j<N;j++){
+],
+
+
+zohal: [
+  {
+    t: "Zohal (Saturne) est associé à…",
+    c: ["la facilité", "discipline & endurance", "distraction"],
+    a: 1,
+    e: "",
+    cite: "« Zohal est signe de discipline, d’endurance et de constance dans le service. »"
+  },
+  {
+    t: "Vertu centrale liée à Zohal :",
+    c: ["légèreté", "patience", "imprudence"],
+    a: 1,
+    e: "",
+    cite: "« Celui qui est sous l’influence bénéfique de Zohal possède une grande patience. »"
+  },
+  {
+    t: "Le service humble forme…",
+    c: ["uniquement théorique", "l’éthique de travail", "l’arrêt du service"],
+    a: 1,
+    e: "",
+    cite: "« Le service humble forge l’éthique et l’endurance du mumin. »"
+  },
+  {
+    t: "Exemple mentionné (Burhanuddin RA / service) :",
+    c: ["éviter les tâches", "assumer des tâches humbles", "refuser la fatigue"],
+    a: 1,
+    e: "",
+    cite: "« Moula prenait sur lui les tâches les plus humbles, sans distinction. »"
+  },
+  {
+    t: "Face à l’épreuve, le walayat…",
+    c: ["évite tout effort", "donne force & sérénité", "dispense de prière"],
+    a: 1,
+    e: "",
+    cite: "« Le walayat donne au cœur la force et la sérénité face à toute épreuve. »"
+  },
+  {
+    t: "Radd al-shams signifie :",
+    c: ["lune levée tôt", "soleil “ramené” pour Asr", "éclipse de trois jours"],
+    a: 1,
+    e: "",
+    cite: "« Radd al-shams : Allah ramena le soleil afin que Moula Ali puisse accomplir Asr. »"
+  },
+  {
+    t: "Sirat-e-Mustaqeem est :",
+    c: ["large et facile", "plus fin qu’un cheveu et plus tranchant qu’une lame", "circulaire"],
+    a: 1,
+    e: "",
+    cite: "« Sirat-e-Mustaqeem est plus fin qu’un cheveu et plus tranchant qu’une lame. »"
+  },
+  {
+    t: "Khamr (alcool) est :",
+    c: ["autorisé un peu", "haram même en petite quantité", "recommandé"],
+    a: 1,
+    e: "",
+    cite: "« Khamr est haram, même en une seule goutte. »"
+  },
+  {
+    t: "Invocation simple protectrice :",
+    c: ["Salam", "Bismillah", "Marhaba"],
+    a: 1,
+    e: "",
+    cite: "« Dis Bismillah avant toute action, et Allah te protégera. »"
+  },
+  {
+    t: "Sadaqa avant un voyage :",
+    c: ["inutile", "recommandé", "obligatoire"],
+    a: 1,
+    e: "",
+    cite: "« Offrir sadaqa avant un voyage éloigne les difficultés. »"
+  }
+],
+
+
+mushtari: [
+  {
+    t: "Mushtari (Jupiter) symbolise…",
+    c: ["chance gratuite", "prospérité par l’effort", "isolement"],
+    a: 1,
+    e: "",
+    cite: "« Mushtari est signe de prospérité qui vient par l’effort sincère et constant. »"
+  },
+  {
+    t: "Qualité associée :",
+    c: ["noblesse/générosité", "froideur", "inconstance"],
+    a: 0,
+    e: "",
+    cite: "« Mushtari inspire la noblesse et la générosité dans les actes. »"
+  },
+  {
+    t: "Exemple/waaqia sur karam :",
+    c: ["refuser l’aide", "ouvrir la main", "ignorer"],
+    a: 1,
+    e: "",
+    cite: "« La main qui donne ne s’appauvrit jamais, elle s’ouvre et reçoit plus encore. »"
+  },
+  {
+    t: "Lien effort → saʿâdat :",
+    c: ["aucun", "affirmé", "nié"],
+    a: 1,
+    e: "",
+    cite: "« C’est par l’effort et le service que l’on atteint la saʿâdat. »"
+  },
+  {
+    t: "Travail & bénédiction :",
+    c: ["contradiction", "compatibles", "impossibles"],
+    a: 1,
+    e: "",
+    cite: "« Le travail dans le halal attire la bénédiction. »"
+  },
+  {
+    t: "Adab dans la réussite :",
+    c: ["orgueil", "humilité & shukr", "indifférence"],
+    a: 1,
+    e: "",
+    cite: "« Lorsque la réussite vient, un mumin répond par l’humilité et le shukr. »"
+  },
+  {
+    t: "Aide aux non-musulmans :",
+    c: ["non autorisé", "autorisé", "interdit"],
+    a: 1,
+    e: "",
+    cite: "« Aider les non-musulmans dans le bien est autorisé et recommandé. »"
+  },
+  {
+    t: "Objectif du mumin :",
+    c: ["profit seul", "faiz & barakat", "renommée"],
+    a: 1,
+    e: "",
+    cite: "« Le mumin recherche le faiz et la barakat, non la renommée. »"
+  },
+  {
+    t: "Dua de barakat :",
+    c: ["inutile", "souhaitable", "proscrite"],
+    a: 1,
+    e: "",
+    cite: "« Fais dua pour que la barakat descende sur ton travail et ta maison. »"
+  },
+  {
+    t: "Fruit de Mushtari :",
+    c: ["nuisance", "noblesse", "tristesse"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit de Mushtari est la noblesse et l’élévation morale. »"
+  }
+],
+
+
+mirrikh: [
+  {
+    t: "Mirrikh (Mars) renvoie à…",
+    c: ["paresse", "force & résilience", "passivité"],
+    a: 1,
+    e: "",
+    cite: "« Mirrikh est signe de force, de courage et de résilience face aux épreuves. »"
+  },
+  {
+    t: "Face à l’adversité, Mirrikh inspire…",
+    c: ["fuite", "résilience", "indifférence"],
+    a: 1,
+    e: "",
+    cite: "« Celui qui suit l’influence de Mirrikh se tient ferme dans l’adversité. »"
+  },
+  {
+    t: "Protection :",
+    c: ["faible", "affirmée", "absente"],
+    a: 1,
+    e: "",
+    cite: "« Par Mirrikh, Allah accorde Sa protection dans les moments difficiles. »"
+  },
+  {
+    t: "Courage :",
+    c: ["déconseillé", "recherché", "inutile"],
+    a: 1,
+    e: "",
+    cite: "« Le courage est une qualité que Mirrikh inspire et que le mumin doit rechercher. »"
+  },
+  {
+    t: "Service & fermeté :",
+    c: ["contraires", "alliés", "sans lien"],
+    a: 1,
+    e: "",
+    cite: "« Le service de Moula et la fermeté dans la foi vont ensemble. »"
+  },
+  {
+    t: "Exemple historique :",
+    c: ["recul", "constance", "abandon"],
+    a: 1,
+    e: "",
+    cite: "« Les Duʿat, face aux tyrans, ont montré une constance exemplaire. »"
+  },
+  {
+    t: "Niyya (intention) :",
+    c: ["sans impact", "donne force", "empêche"],
+    a: 1,
+    e: "",
+    cite: "« Une intention pure donne au mumin la force d’avancer. »"
+  },
+  {
+    t: "ʿIzz (dignité) :",
+    c: ["se perd", "se renforce", "n’existe pas"],
+    a: 1,
+    e: "",
+    cite: "« Mirrikh renforce l’ʿizz et la dignité du croyant. »"
+  },
+  {
+    t: "Taqwa & épreuve :",
+    c: ["affaiblit", "renforce", "confond"],
+    a: 1,
+    e: "",
+    cite: "« La taqwa dans l’épreuve est une armure pour le cœur. »"
+  },
+  {
+    t: "Résultat de Mirrikh :",
+    c: ["abattement", "thabat (constance)", "orgueil"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit de Mirrikh est le thabat – la constance dans la voie d’Allah. »"
+  }
+],
+
+zuhra: [
+  {
+    t: "Zuhra (Vénus) est liée à…",
+    c: ["harmonie & grâce", "peur", "sécheresse"],
+    a: 0,
+    e: "",
+    cite: "« Zuhra est signe d’harmonie, de grâce et de beauté. »"
+  },
+  {
+    t: "Équilibre du cœur :",
+    c: ["perturbé", "recherché", "inutile"],
+    a: 1,
+    e: "",
+    cite: "« Zuhra incline le cœur vers l’équilibre et la tranquillité. »"
+  },
+  {
+    t: "Beauté (jamal) :",
+    c: ["réprouvée", "valorisée", "ignorée"],
+    a: 1,
+    e: "",
+    cite: "« Allah aime la beauté – jamal – lorsqu’elle est accompagnée d’adab. »"
+  },
+  {
+    t: "Effet de Zuhra :",
+    c: ["agressif", "apaisant", "neutre"],
+    a: 1,
+    e: "",
+    cite: "« Zuhra adoucit les relations et apaise les tensions. »"
+  },
+  {
+    t: "Suhayl (ex.) :",
+    c: ["absence", "présence", "contradiction"],
+    a: 1,
+    e: "",
+    cite: "« Comme l’étoile Suhayl, Zuhra apporte une lumière douce et constante. »"
+  },
+  {
+    t: "Adab & Zuhra :",
+    c: ["sans lien", "intimement liés", "opposés"],
+    a: 1,
+    e: "",
+    cite: "« L’harmonie de Zuhra ne se réalise qu’avec l’adab dans chaque action. »"
+  },
+  {
+    t: "Nour de guidance :",
+    c: ["obscurcit", "équilibre", "éteint"],
+    a: 1,
+    e: "",
+    cite: "« Le nour de guidance équilibre l’âme comme Zuhra équilibre le ciel. »"
+  },
+  {
+    t: "Ziyafat (hospitalité) :",
+    c: ["non liée", "harmonie de la maison", "interdite"],
+    a: 1,
+    e: "",
+    cite: "« La ziyafat faite avec sincérité apporte l’harmonie dans la maison. »"
+  },
+  {
+    t: "Sakina (quiétude) :",
+    c: ["refusée", "accordée", "inconnue"],
+    a: 1,
+    e: "",
+    cite: "« Allah accorde la sakina dans les foyers où règne Zuhra. »"
+  },
+  {
+    t: "Fruit de Zuhra :",
+    c: ["discorde", "harmonie", "indifférence"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit de Zuhra est l’harmonie et la sérénité. »"
+  }
+],
+
+
+utarid: [
+  {
+    t: "ʿUtarid (Mercure) symbolise…",
+    c: ["confusion", "clarté & vivacité", "ennui"],
+    a: 1,
+    e: "",
+    cite: "« ʿUtarid est signe de clarté, de vivacité et de rapidité d’esprit. »"
+  },
+  {
+    t: "Lien savoir-action :",
+    c: ["rompu", "assuré", "inexistant"],
+    a: 1,
+    e: "",
+    cite: "« Le savoir sans action est incomplet ; ʿUtarid unit les deux. »"
+  },
+  {
+    t: "Éloquence (bayân/fasaha) :",
+    c: ["absente", "présente", "interdite"],
+    a: 1,
+    e: "",
+    cite: "« ʿUtarid confère au mumin le bayân et la fasaha pour exprimer la vérité. »"
+  },
+  {
+    t: "Vitesse de compréhension :",
+    c: ["ralentie", "vive", "nulle"],
+    a: 1,
+    e: "",
+    cite: "« Sous l’influence de ʿUtarid, la compréhension devient vive et précise. »"
+  },
+  {
+    t: "Adab d’apprentissage :",
+    c: ["inutile", "essentiel", "optionnel"],
+    a: 1,
+    e: "",
+    cite: "« L’adab dans l’apprentissage ouvre la porte à la vraie compréhension. »"
+  },
+  {
+    t: "ʿIlm (savoir) :",
+    c: ["sans amal", "accompagné d’amal", "contre amal"],
+    a: 1,
+    e: "",
+    cite: "« L’ʿilm doit toujours être accompagné d’amal pour porter fruit. »"
+  },
+  {
+    t: "Exemple pédagogique :",
+    c: ["théorie seule", "tâches formatrices", "arrêt du service"],
+    a: 1,
+    e: "",
+    cite: "« Un élève formé dans les tâches humbles apprend mieux que dans la seule théorie. »"
+  },
+  {
+    t: "Clarté vs doute :",
+    c: ["doute prime", "clarté prime", "égales"],
+    a: 1,
+    e: "",
+    cite: "« La clarté de ʿUtarid dissipe les doutes et éclaire la route. »"
+  },
+  {
+    t: "Décision (ʿazm) :",
+    c: ["affaiblie", "renforcée", "indifférente"],
+    a: 1,
+    e: "",
+    cite: "« ʿUtarid renforce la détermination dans les décisions justes. »"
+  },
+  {
+    t: "Résultat d’ʿUtarid :",
+    c: ["flou", "lucidité", "colère"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit d’ʿUtarid est la lucidité et la droiture dans les paroles. »"
+  }
+],
+
+shams: [
+  {
+    t: "Shams (Soleil) renvoie à…",
+    c: ["discrétion", "lumière & guidance", "froid"],
+    a: 1,
+    e: "",
+    cite: "« Le Shams est source de lumière et de guidance pour les créatures. »"
+  },
+  {
+    t: "Fonction du Soleil :",
+    c: ["masquer", "éclairer & guider", "diviser"],
+    a: 1,
+    e: "",
+    cite: "« Comme le soleil éclaire le monde, ainsi la guidance éclaire le cœur. »"
+  },
+  {
+    t: "Source de vie :",
+    c: ["nulle", "affirmée", "niée"],
+    a: 1,
+    e: "",
+    cite: "« Sans le soleil, il n’y aurait ni chaleur, ni croissance, ni vie. »"
+  },
+  {
+    t: "Hidaya :",
+    c: ["obscurcit", "guide", "stoppe"],
+    a: 1,
+    e: "",
+    cite: "« La hidaya guide les croyants comme le soleil guide les voyageurs. »"
+  },
+  {
+    t: "Siraj (lampe) :",
+    c: ["éteinte", "allumée", "absente"],
+    a: 1,
+    e: "",
+    cite: "« Le Prophète est décrit comme siraj munir, une lampe illuminante. »"
+  },
+  {
+    t: "Shams & qalb :",
+    c: ["endurcit", "réchauffe", "refroidit"],
+    a: 1,
+    e: "",
+    cite: "« La lumière du Shams réchauffe le cœur du mumin. »"
+  },
+  {
+    t: "Exemple traité :",
+    c: ["sans lien", "lumière sur l’épreuve", "pure technique"],
+    a: 1,
+    e: "",
+    cite: "« Même dans l’épreuve, la lumière du soleil est signe de rahmat. »"
+  },
+  {
+    t: "Nizam (ordre) :",
+    c: ["chaos", "ordre", "vide"],
+    a: 1,
+    e: "",
+    cite: "« Le lever et coucher du soleil montrent le nizam établi par Allah. »"
+  },
+  {
+    t: "Nour & basira :",
+    c: ["brouillent", "éclairent", "éteignent"],
+    a: 1,
+    e: "",
+    cite: "« Le nour et la basira éclairent la voie comme le Shams éclaire la terre. »"
+  },
+  {
+    t: "Fruit de Shams :",
+    c: ["froideur", "chaleur & vie", "épuisement"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit du Shams est la chaleur et la vie qu’il répand sur toute la création. »"
+  }
+],
+
+
+qamar: [
+  {
+    t: "Qamar (Lune) évoque…",
+    c: ["chaleur brûlante", "réceptivité & cycles", "rigidité"],
+    a: 1,
+    e: "",
+    cite: "« Le Qamar reçoit la lumière et reflète ses phases selon des cycles précis. »"
+  },
+  {
+    t: "Dans la métaphore, la Lune est…",
+    c: ["source de lumière", "miroir de la lumière solaire", "sans lien au Soleil"],
+    a: 1,
+    e: "",
+    cite: "« La Lune n’est pas source mais miroir du Shams, reflétant sa lumière. »"
+  },
+  {
+    t: "Réception du nûr :",
+    c: ["refuse", "reçoit", "éteint"],
+    a: 1,
+    e: "",
+    cite: "« Le Qamar reçoit le nûr du Shams et le transmet à la nuit. »"
+  },
+  {
+    t: "Cycles :",
+    c: ["aucuns", "présents", "cachés"],
+    a: 1,
+    e: "",
+    cite: "« Ses phases, de la nouvelle lune à la pleine lune, régulent le calendrier. »"
+  },
+  {
+    t: "Tathir (purification) :",
+    c: ["absente", "évoquée", "niée"],
+    a: 1,
+    e: "",
+    cite: "« Le Qamar est signe de tathir, car sa lumière pure éclaire l’obscurité. »"
+  },
+  {
+    t: "Qalb (cœur) :",
+    c: ["fermé", "réceptif", "inactif"],
+    a: 1,
+    e: "",
+    cite: "« Le cœur du mumin doit être comme le Qamar, réceptif à la lumière. »"
+  },
+  {
+    t: "Tarteel/tilawa :",
+    c: ["sans rapport", "liées au cycle", "interdites"],
+    a: 1,
+    e: "",
+    cite: "« La tilawa réglée est comparée aux cycles réguliers du Qamar. »"
+  },
+  {
+    t: "Exemple de phases :",
+    c: ["sans effet", "règlent la vie", "illusoire"],
+    a: 1,
+    e: "",
+    cite: "« Les phases de la lune règlent la vie rituelle et agricole. »"
+  },
+  {
+    t: "Miroir :",
+    c: ["opaque", "réfléchissant", "brisé"],
+    a: 1,
+    e: "",
+    cite: "« Comme un miroir poli, le Qamar reflète la lumière sans en perdre. »"
+  },
+  {
+    t: "Fruit de Qamar :",
+    c: ["désordre", "rythme & quiétude", "épuisement"],
+    a: 1,
+    e: "",
+    cite: "« Le fruit du Qamar est un rythme apaisant et une quiétude dans la nuit. »"
+  }
+]
+};
+
+
+/* ---------- CONSTELLATIONS (visuel) ---------- */
+const canvas = document.getElementById('constel');
+const ctx = canvas.getContext && canvas.getContext('2d');
+function sizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}
+if(ctx){
+  sizeCanvas(); addEventListener('resize', sizeCanvas, {passive:true});
+  const N=90;
+  const stars = Array.from({length:N},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.4+0.3,vx:(Math.random()-.5)*0.2,vy:(Math.random()-.5)*0.2}));
+  const mouse={x:-9999,y:-9999};
+  addEventListener('mousemove', e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});
+  addEventListener('mouseleave', ()=>{mouse.x=-9999;mouse.y=-9999},{passive:true});
+  (function loop(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const s of stars){
+      s.x+=s.vx; s.y+=s.vy;
+      if(s.x<0||s.x>canvas.width) s.vx*=-1;
+      if(s.y<0||s.y>canvas.height) s.vy*=-1;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.fill();
+    }
+    for(let i=0;i<N;i++) for(let j=i+1;j<N;j++){
       const a=stars[i], b=stars[j];
       const d=Math.hypot(a.x-b.x,a.y-b.y);
       const midx=(a.x+b.x)/2, midy=(a.y+b.y)/2;
@@ -317,41 +980,22 @@ function loop(){
       if(d<120){
         ctx.strokeStyle=`rgba(255,255,255,${0.14 + nearMouse*0.25})`;
         ctx.lineWidth= nearMouse ? 1.2 : 0.6;
-        ctx.beginPath();
-        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
       }
     }
-  }
-  requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
+  })();
 }
-loop();
 
-/* ---------- QUIZ ---------- */
-const questions = [
-  {t:"Quelle sphère est « enveloppante » et la plus extérieure ?", c:["Falak al-Buruj","Al-Falak al-Muheet","Shams"], a:1, e:"Al-Falak al-Muheet est l’orbite enveloppante et la plus extérieure."},
-  {t:"Zohal (Saturne) renvoie surtout à…", c:["La prospérité immédiate","La discipline et l’endurance","La communication"], a:1, e:"Zohal = discipline, endurance, effort."},
-  {t:"Mushtari (Jupiter) est associé à…", c:["La bonne fortune acquise par l’effort","Les cycles de la lune","L’éloquence"], a:0, e:"Mushtari = prospérité (saʿâdat) par l’effort."},
-  {t:"Quelle planète symbolise force et résilience ?", c:["Zuhra (Vénus)","Mirrikh (Mars)","ʿUtarid (Mercure)"], a:1, e:"Mirrikh = force, courage, résilience."},
-  {t:"Falak al-Buruj concerne principalement…", c:["Les constellations et leurs demeures","Les océans","Les montagnes"], a:0, e:"Sphère des étoiles fixes et constellations (buruj)."},
-  {t:"Quel astre est lié à l’harmonie et la grâce ?", c:["Zuhra (Vénus)","Shams (Soleil)","Qamar (Lune)"], a:0, e:"Zuhra = harmonie et beauté."},
-  {t:"ʿUtarid (Mercure) symbolise surtout…", c:["La clarté et la vivacité","La patience","La rigueur"], a:0, e:"Vivacité, clarté, liaison savoir-action."},
-  {t:"Shams (Soleil) renvoie à…", c:["L’équilibre","La lumière et la guidance","La discrétion"], a:1, e:"Shams = lumière et guidance."},
-  {t:"Qamar (Lune) est surtout la métaphore de…", c:["La chaleur","La réceptivité et les cycles","La puissance brute"], a:1, e:"Qamar = réceptivité et cycles."},
-  {t:"Quel acte protège avant un voyage ?", c:["Offrir sadaqa","Dormir tôt","Manger léger"], a:0, e:"Offrir sadaqa avant (et après) le voyage."},
-  {t:"Le khamr (alcool) est…", c:["Permis en très petite quantité","Haram, même en petite quantité","Recommandé médicalement"], a:1, e:"Le khamr est haram, même en petite quantité."},
-  {t:"Quelle invocation simple protège la maison au quotidien ?", c:["Salam","Bismillah","Marhaba"], a:1, e:"Dire Bismillah avant d’agir."},
-  {t:"Le mithaaq crée surtout…", c:["Une obligation fiscale","Une connexion au Wali Allah","Un vœu temporaire"], a:1, e:"Le mithaaq connecte au Wali Allah."},
-  {t:"Que signifie « radd al-shams » ?", c:["La lune s’est levée tôt","Le soleil a été “ramené” pour Asr","Une éclipse a duré trois jours"], a:1, e:"Le soleil fut “ramené” pour accomplir Asr."},
-  {t:"Le Sirat-e-Mustaqeem est décrit comme…", c:["Large et facile","Plus fin qu’un cheveu et plus tranchant qu’une lame","Un chemin circulaire"], a:1, e:"Plus fin qu’un cheveu, plus tranchant qu’une lame."},
-  {t:"Science & foi : l’enseignement est que…", c:["La science contredit la foi","Elles s’accordent si bien comprises","La foi doit ignorer la science"], a:1, e:"Elles s’accordent quand elles sont bien comprises."},
-  {t:"Donner sadaqa à une personne non-musulmane est…", c:["Non autorisé","Autorisé","Obligatoire chaque vendredi"], a:1, e:"Autorisé : on aide toute personne dans le besoin."},
-  {t:"Le walayat du Wali Allah permet surtout…", c:["D’éviter toute difficulté","De traverser l’épreuve avec force et sérénité","De ne pas prier"], a:1, e:"Il soutient pour traverser l’épreuve avec force et sérénité."},
-  {t:"L’éthique de travail transmise aux étudiants inclut…", c:["Uniquement l’étude théorique","Des tâches humbles et formatrices","L’arrêt du service"], a:1, e:"Des tâches humbles et formatrices."},
-  {t:"Les éclipses d’Ashura sont…", c:["Un événement banal","Des signes extraordinaires face à l’injustice","Un mythe sans symbolisme"], a:1, e:"Des signes extraordinaires face à l’injustice."}
-];
-
+/* ---------- QUIZ LOGIQUE ---------- */
+let selectedVahez = "";
+let questions = [];
 let idx=0, score=0;
+
+const vahezSelect = document.getElementById('vahezSelect');
+const openPdfLink = document.getElementById('openPdfLink');
 const qIndex = document.getElementById('qIndex');
+const qSel = document.getElementById('qSel');
 const qScore = document.getElementById('qScore');
 const qTitle = document.getElementById('qTitle');
 const qChoices = document.getElementById('qChoices');
@@ -363,11 +1007,52 @@ const checkBtn = document.getElementById('checkBtn');
 const resetBtn = document.getElementById('resetBtn');
 const finalResult = document.getElementById('finalResult');
 
-const picked = new Array(questions.length).fill(null);
-const checked = new Array(questions.length).fill(false);
-const wasCorrect = new Array(questions.length).fill(false);
+let picked = [];
+let checked = [];
+let wasCorrect = [];
+
+document.querySelectorAll('.go-quiz').forEach(btn=>{
+  btn.addEventListener('click', (e)=>{
+    const card = e.currentTarget.closest('.vahez');
+    const id = card.getAttribute('data-id');
+    setVahez(id);
+  });
+});
+
+vahezSelect.addEventListener('change', (e)=> setVahez(e.target.value));
+
+function setVahez(id){
+  if(!id || !VAHEZ_MAP[id]) return;
+  selectedVahez = id;
+  questions = (VAHEZ_QUESTIONS[id]||[]).slice(); // copie
+  idx=0; score=0;
+  picked = new Array(questions.length).fill(null);
+  checked = new Array(questions.length).fill(false);
+  wasCorrect = new Array(questions.length).fill(false);
+
+  qSel.textContent = VAHEZ_MAP[id].label;
+  qScore.textContent = "Score : 0";
+  bar.style.width='0%'; finalResult.textContent='';
+  openPdfLink.style.display='inline-flex';
+  openPdfLink.href = VAHEZ_MAP[id].pdf + (questions[0]?.page ? `#page=${questions[0].page}` : "");
+  vahezSelect.value = id;
+
+  prevBtn.disabled=true;
+  resetBtn.disabled=false;
+
+  render();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+}
 
 function render(){
+  if(!questions.length){
+    qIndex.textContent="Question 0 / 0";
+    qTitle.textContent="Sélectionne un Vahez pour commencer.";
+    qChoices.innerHTML=''; qExp.textContent='';
+    checkBtn.disabled=true; nextBtn.disabled=true; prevBtn.disabled=true; resetBtn.disabled=true;
+    return;
+  }
+
   const q=questions[idx];
   qIndex.textContent=`Question ${idx+1} / ${questions.length}`;
   qScore.textContent=`Score : ${score}`;
@@ -388,8 +1073,8 @@ function render(){
       });
       el.classList.add('selected');
       el.setAttribute('aria-pressed','true');
-      checkBtn.disabled=false; 
-      nextBtn.disabled=false; // on peut aller au suivant après sélection
+      checkBtn.disabled=false;
+      nextBtn.disabled=true;   // ← ne s’active qu’après “Valider”
     });
     qChoices.appendChild(el);
   });
@@ -398,8 +1083,7 @@ function render(){
     const node=qChoices.children[picked[idx]];
     if(node) { node.classList.add('selected'); node.setAttribute('aria-pressed','true'); }
     checkBtn.disabled=false;
-    if(checked[idx]){ markChoices(); }
-    else { nextBtn.disabled=false; }
+    if(checked[idx]){ markChoices(); nextBtn.disabled=false; }
   }else{
     checkBtn.disabled=true; nextBtn.disabled=true;
   }
@@ -407,6 +1091,8 @@ function render(){
 
   const answered = checked.filter(Boolean).length;
   bar.style.width = Math.round(answered/questions.length*100)+'%';
+
+  openPdfLink.href = VAHEZ_MAP[selectedVahez].pdf + (q.page ? `#page=${q.page}` : "");
 }
 
 function markChoices(){
@@ -423,34 +1109,39 @@ function markChoices(){
   const correctNow = picked[idx]===q.a;
   if(!checked[idx]){ if(correctNow) score++; wasCorrect[idx]=correctNow; checked[idx]=true; }
   qScore.textContent=`Score : ${score}`;
-  qExp.innerHTML = (correctNow? "<span style='color:var(--ok);font-weight:800'>✔ Correct</span> — " : "<span style='color:var(--ko);font-weight:800'>✘ Incorrect</span> — ") + q.e;
-  nextBtn.disabled = false;
+
+  const pdf = VAHEZ_MAP[selectedVahez].pdf;
+  const link = pdf + (q.page ? `#page=${q.page}` : "");
+  const cited = q.cite && q.cite.trim().length>0;
+
+  qExp.innerHTML =
+    (correctNow? "<span style='color:var(--ok);font-weight:800'>✔ Correct</span> — " : "<span style='color:var(--ko);font-weight:800'>✘ Incorrect</span> — ")
+    + (q.e || "") +
+    `<div class="cite">📖 Réf. : <a href="${link}" target="_blank" rel="noopener">${VAHEZ_MAP[selectedVahez].label}${q.page?` — p. ${q.page}`:""}</a>`+
+    (cited ? `<blockquote>${q.cite}</blockquote>` : `<blockquote style="opacity:.8">⚠ Ajoute ici la citation exacte du PDF.</blockquote>`)
+    + `</div>`;
+
+  nextBtn.disabled = false; // ← activé uniquement après "Valider"
 }
 
 prevBtn.addEventListener('click', ()=>{ if(idx>0){ idx--; render(); }});
 nextBtn.addEventListener('click', ()=>{
-  // Si pas validé mais une réponse choisie, on valide automatiquement puis on passe
-  if(!checked[idx] && picked[idx]!==null){ 
-    markChoices(); 
-  }
+  if(!checked[idx] && picked[idx]!==null){ markChoices(); }
   if(idx<questions.length-1){ idx++; render(); }
   else{
     finalResult.innerHTML = `Résultat final : <strong>${score} / ${questions.length}</strong><br>`+
-      (score>16 ? "🌟 Excellent ! Tu maîtrises les Vahez." :
-       score>12 ? "✨ Très bien ! Encore un petit effort." :
-       score>8  ? "👍 Pas mal — révise quelques points." :
-                   "📚 Continue tes révisions, tu y es presque !");
+      (score>=(questions.length*0.85) ? "🌟 Excellent !" :
+       score>=(questions.length*0.65) ? "✨ Très bien !" :
+       score>=(questions.length*0.45) ? "👍 Pas mal." :
+                                        "📚 Continue tes révisions !");
   }
 });
-checkBtn.addEventListener('click', ()=>{
-  if(picked[idx]===null) return;
-  markChoices();
-});
+checkBtn.addEventListener('click', ()=>{ if(picked[idx]!==null) markChoices(); });
 resetBtn.addEventListener('click', ()=>{
+  if(!selectedVahez) return;
   idx=0; score=0;
   picked.fill(null); checked.fill(false); wasCorrect.fill(false);
   bar.style.width='0%'; finalResult.textContent='';
-  // réactive le pointerEvents
   [...qChoices.children].forEach(n=>{ n.style.pointerEvents='auto'; n.tabIndex=0; });
   render();
 });
@@ -461,8 +1152,6 @@ document.addEventListener('keydown', (e)=>{
   if(e.key==='ArrowRight' && !nextBtn.disabled){ e.preventDefault(); nextBtn.click(); }
   if(e.key==='ArrowLeft' && !prevBtn.disabled){ e.preventDefault(); prevBtn.click(); }
 },{passive:false});
-
-render();
 </script>
 </body>
 </html>
